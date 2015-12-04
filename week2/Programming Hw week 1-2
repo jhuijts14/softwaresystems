@@ -1,0 +1,1911 @@
+P-1.4:
+	1.5 a) classroom properties: room number, capacity, 
+		b) book: title, author, publishing date, ISBN, isAvailable
+		c) back pack: brandName, description, color, productName, price
+		d) back pack: capacity, level, items 
+		e) elevator: doorsOpen, level
+	
+	1.6) a) getRoomNumber value: 213
+		 b) getTitle value: "Don Xihote"
+		 c)getColor value: "Black"
+		 d) getCapacity value 213
+		 e) getDoorsOpen value True
+	 
+	1.7) a) assignRoom decrease capacity according to number of students in class
+		 b) lendBook isAvailable set to false
+		 c) discountPrice price value decreases
+		 d) addItem decrease capacity of back pack
+		 e) moveToLevel change level according to which level elevator moves to
+		 
+	1.8) a) Name: Volvo Plant: Uddevalla Location: Sweden
+			Name: GM    Plant: NUMMI     Location: US
+		 b) Name: Camry Manufacturer: Chevy Year: 2013
+		    Name: 911 Manufacturer: Porche Year: 2013
+		 c) Title: Lethal Weapon Release Date: 12/12/1980 Genre: "Action"
+		 
+	1.9) a) primitive type: Name reference type: Plant address
+	     b) primitive type: price reference type: Customer who purchased.
+	     c) primitive type: Title reference type: Lender
+	     d) primitive type: Email reference type: video borrowed.
+
+
+P-1.5) 
+package ss.week1;
+/**
+ * The class for the three-way lamp.
+ * @author joep
+ *
+ */
+public class Lamp {
+/**
+ * The current setting of the lamp. Either off, low, medium or high.
+ */
+	public String setting;
+	
+	/**
+	 * Create a new Lamp, with the 
+	 * setting initialized to "off".
+	 */
+	public Lamp () {
+		setting = "off";
+	}
+	
+	/**
+	 * The current setting of the lamp.
+	 * @return
+	 */
+	public String getSetting() {
+		return setting;
+	}
+	
+	/** 
+	 * Set the setting of a lamp to a different value.
+	 * @param lampSetting
+	 */
+	public void setSetting(String lampSetting){
+		setting = lampSetting;
+	}
+}
+
+P-1.7)
+package ss.week1;
+/**
+ * Test system for the class Lamp.
+ * @author Joep
+ *
+ */
+public class Test {
+
+	/**
+	 * Run a Lamp test.
+	 */
+	public static void main(String[] args) {
+		LampTest test;
+		test = new LampTest();
+		test.runTest();
+	}
+
+}
+
+package ss.week1;
+/**
+ * A tester for the lamp class and switching settings.
+ * @author joep
+ *
+ */
+public class LampTest {
+
+	
+	/**
+	 * Create a lamp to test.
+	 */
+	private Lamp testLamp;
+	
+	public LampTest() {
+		testLamp = new Lamp();
+	}
+	
+	/**
+	 * Test the initial setting of the lamp.
+	 */
+	private void testInitialState() {
+		System.out.println("testInitialState: ");
+		System.out.println("Initial setting: " + testLamp.getSetting());
+	}
+	
+	
+	
+	/**
+	 * Test a change is a lamp's setting.
+	 */
+	private void testChange() {
+		System.out.println("testChange: ");
+		System.out.println("Starting setting: " + testLamp.getSetting());
+		testLamp.switchSetting();
+		System.out.println("After 1 change: " + testLamp.getSetting());
+		testLamp.switchSetting();
+		System.out.println("After 2 changes: " + testLamp.getSetting());
+		testLamp.switchSetting();
+		System.out.println("After 3 changes: " + testLamp.getSetting());
+		testLamp.switchSetting();
+		System.out.println("After 4 changes: " + testLamp.getSetting());
+		
+	}
+	
+	/**
+	 * Test the switch setting method.
+	 * 
+	 */
+	public void runTest() {
+		this.testInitialState();
+		this.testChange();
+		
+	}
+}
+
+
+
+package ss.week1;
+/**
+ * The class for the three-way lamp.
+ * @author joep
+ *
+ */
+public class Lamp {
+/**
+ * The current setting of the lamp. Either off, low, medium or high.
+ */
+	public int setting;
+	public String result;
+	
+	/**
+	 * Create a new Lamp, with the 
+	 * setting initialized to "off".
+	 */
+	public Lamp() {
+		setting = 0;
+	}
+	
+	/**
+	 * The current setting of the lamp.
+	 * @return
+	 */
+	public String getSetting() {
+		if (setting == 1) {
+			result = "low";
+		} else if (setting == 2) {
+			result = "medium";
+		} else if (setting == 3) {
+			result = "high";
+		} else {
+			result = "off";
+		}
+		return result;
+	}
+	
+	/** 
+	 * Increment the setting of a lamp.
+	 * @param lampSetting
+	 */
+	public void switchSetting() {
+		setting += 1;
+		
+		setting = setting % 4;
+		
+		
+	}
+
+}
+
+P-1.8)
+
+public class Student {
+
+	public int score;
+	public boolean passed() {
+		if (score >= 70) {
+			return true;
+		}
+		else { 
+			return false;
+		}
+	}
+}
+
+P-1.9)
+
+package ss.week1;
+/**
+ * The class for a dollars and cents counter.
+ * @author joep
+ *
+ */
+public class DollarsAndCentsCounter {
+
+	public int dollars;
+	public int cents;
+	
+	/**
+	 * The constructer for the dollars and cents counter.
+	 * @param dollars
+	 * @param cents
+	 */
+	public DollarsAndCentsCounter() {
+		
+	}
+	
+	public int dollars() {
+		if (this.dollars < 0) {
+			this.dollars = 0;
+		}
+		
+		return this.dollars;
+	}
+	
+	public int cents() {
+		if (this.cents < 0) {
+			this.cents = 0;
+		}
+		
+		
+		return this.cents;
+	}
+	
+	/**
+	 * Method to add dollar or cents to the counter.
+	 * @param dollars
+	 * @param cents
+	 */
+	public void add(int dollars1, int cents1) {
+		this.dollars = this.dollars + dollars1;
+		
+		this.cents = this.cents + cents1;
+		
+		if (this.cents > 99) {
+			this.dollars = this.dollars + (this.cents - (this.cents % 100)) / 100;
+			this.cents = this.cents % 100;
+		}
+		
+	}
+	
+	/**
+	 * Method to reset the counter.
+	 */
+	public void reset() {
+		if (this.dollars != 0 || this.cents != 0) {
+			this.dollars = 0;
+			this.cents   = 0;
+		}
+	}
+	
+	/**
+	 * Method to subtract dollars and cents from the counter.
+	 */
+	public void subtract(int dollars1, int cents1) {
+		this.dollars = this.dollars - dollars1;
+		this.cents = this.cents - cents1;
+		
+		if (this.dollars < 0) {
+			this.dollars = 0;
+		} else if (this.cents < 0) {
+			this.cents = 0;
+		}
+	}
+	
+}
+
+P-1.10)
+package ss.week1.hotel;
+
+/**
+ * The class of a hotel guest.
+ * @author joep
+ *
+ */
+public class Guest {
+
+	private Room room;
+	private String name;
+	
+	/**
+	 * Creates a Guest with the given name and without Room.
+	 */
+	public Guest(java.lang.String n) {
+		
+	}
+	
+	/**
+	 * Method that returns the name of this Guest.
+	 */
+	public String getName() {
+		return name;
+	}
+	
+	/**
+	 * Method that returns the Room that is rented by this Guest.
+	 */
+	public Room getRoom() {
+		return room;
+	}
+	
+	/**
+	 * Method to rent a Room to this Guest.
+	 */
+	public boolean checkIn(Room r) {
+		return false;
+	}
+	
+	/**
+	 * Sets the Room of this Guest to null.
+	 */
+	public boolean checkOut() {
+		return false;
+	}
+}
+
+P-1.11) Explanation: 
+The initial state is always null since the Guest constructer is empty. So there's no way to set a Guest's name.
+
+GuestTest
+ss.week1.test.GuestTest
+testCheckoutKnown(ss.week1.test.GuestTest)
+java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at ss.week1.test.GuestTest.testCheckoutKnown(GuestTest.java:89)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+
+testInitialcondition(ss.week1.test.GuestTest)
+java.lang.AssertionError: expected:<Ot> but was:<null>
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.failNotEquals(Assert.java:834)
+	at org.junit.Assert.assertEquals(Assert.java:118)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at ss.week1.test.GuestTest.testInitialcondition(GuestTest.java:55)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+
+testCheckinEmpty(ss.week1.test.GuestTest)
+java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at ss.week1.test.GuestTest.testCheckinEmpty(GuestTest.java:67)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+
+testCheckinTaken(ss.week1.test.GuestTest)
+java.lang.AssertionError: expected:<ss.week1.hotel.Guest@6d5380c2> but was:<null>
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.failNotEquals(Assert.java:834)
+	at org.junit.Assert.assertEquals(Assert.java:118)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at ss.week1.test.GuestTest.testCheckinTaken(GuestTest.java:80)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+
+P-1.12)
+package ss.week1.hotel;
+
+/**
+ * The class of a hotel guest.
+ * @author Joep Huijts
+ *@version $Revision: 1.0 
+ *
+ */
+public class Guest {
+
+	// ------------------ Instance variables ----------------
+	private Room room;
+	private String name;
+	
+	  // ------------------ Constructor ------------------------
+	/**
+	 * Creates a <code> Guest </code> with the given name and without a Room.
+	 *  @param n name of the new <code>Guest</code>
+	 */
+	public Guest(String n) {
+		
+	}
+	
+	// ------------------ Queries --------------------------
+	/**
+	 * Method that returns the name of this <code>Guest</code>.
+	 */
+	public String getName() {
+		return name;
+	}
+	
+	/**
+	 * Method that returns the Room that is rented by this <code>Guest</code>. 
+	 * Room can be null.
+	 */
+	public Room getRoom() {
+		return room;
+	}
+	
+	// ------------------ Commands --------------------------
+	/**
+	 * Method to rent a Room to this <code>Guest</code>.
+	 * @param r the Room the <code>Guest</code> is renting.
+	 * 		  If r is not null, the checkIn method returns false.
+	 */
+	public boolean checkIn(Room r) {
+		return false;
+	}
+	
+	/**
+	 * Sets the Room of this <code>Guest</code> to null.
+	 */
+	public boolean checkOut() {
+		return false;
+	}
+}
+
+P-1.14)
+	2.16) java.lang.Object contains the class String. It has 15 constructers and 60 methods.
+	
+P-1.15)
+package ss.week1.hotel;
+
+/**
+ * The class of a hotel guest.
+ * @author Joep Huijts
+ *@version Revision: 1.0 
+ *
+ */
+public class Guest {
+
+	// ------------------ Instance variables ----------------
+	private Room room;
+	private String name;
+	
+	  // ------------------ Constructor ------------------------
+	/**
+	 * Creates a <code> Guest </code> with the given name and without a Room.
+	 *  @param n name of the new <code>Guest</code>
+	 */
+	public Guest(String n) {
+		this.name = n;
+	}
+	
+	// ------------------ Queries --------------------------
+	/**
+	 * Method that returns the name of this <code>Guest</code>.
+	 */
+	public String getName() {
+		return this.name;
+	}
+	
+	/**
+	 * Method that returns the Room that is rented by this <code>Guest</code>. 
+	 * Room can be null.
+	 */
+	public Room getRoom() {
+		return room;
+	}
+	
+	// ------------------ Commands --------------------------
+	/**
+	 * Method to rent a Room to this <code>Guest</code>.
+	 * @param r the Room the <code>Guest</code> is renting.
+	 * 		  If r is not null, the checkIn method returns false.
+	 */
+	public boolean checkIn(Room r) {
+		if (r.getGuest() != null) {
+			return false;
+		} else {
+			r.setGuest(this);
+			this.room = r;
+			return true;
+		}
+		
+	}
+	
+	/**
+	 * Sets the Room of this <code>Guest</code> to null.
+	 */
+	public boolean checkOut() {
+		if (this.room != null) {
+			this.room.setGuest(null);
+			this.room = null;
+			return true;
+		}
+		
+		return false;
+	}
+}
+
+
+P-1.16)
+
+P-1.17)
+
+P-1.18)
+
+P-1.19)
+package ss.week1;
+/**
+ * Class for Password.
+ * @author Joep Huijts
+ *@version Revision 1.0
+ */
+public class Password {
+
+	//------------------Instance Variables-------------------
+	public static final String INITIAL = "";
+	public String password;
+	
+	//------------------Constructor-------------------------
+	/**
+	 * Creates a <code>Password</code> with the initial password set to INITIAL.
+	 */
+	public Password() {
+		password = INITIAL;
+	}
+	
+	//--------------------Commands--------------------------
+	/**
+	 * Test if a given string is an acceptable password. 
+	 *  @param suggestion - Word that will be tested 
+	 *  	   if it can be used as a password
+	 *  @return false if the suggestion has less
+	 *          than 6 characters or it contains a space.
+	 */
+	public boolean acceptable(String suggestion) {
+		return false;
+	}
+	
+	/**
+	 * Tests if a given word is equal to the current password.
+	 * @param test - String that will be tested against the current
+	 *         password
+	 * @return true If test String is equal to the current password
+	 */
+	public boolean testWord(String test) {
+		return false;
+	}
+	
+	/**
+	 * Changes the current password to a new password.
+	 * @param oldpass - The String of the old password
+	 * @param newpass - The String of the new password
+	 * @return true if oldpass is equal to the current 
+	 *         password and that newpass is an acceptable 
+	 *         password
+	 */
+	public boolean setWord(String oldpass, String newpass) {
+		return false;
+	}
+	
+}
+
+P-1.20)
+
+package ss.week1;
+/**
+ * Class for Password.
+ * @author Joep Huijts
+ *@version Revision 1.0
+ */
+public class Password {
+
+	//------------------Instance Variables-------------------
+	public static final String INITIAL = "abcdefgh";
+	public String password;
+	
+	//------------------Constructor-------------------------
+	/**
+	 * Creates a <code>Password</code> with the initial password set to INITIAL.
+	 */
+	public Password() {
+		password = INITIAL;
+	}
+	
+	//--------------------Commands--------------------------
+	/**
+	 * Test if a given string is an acceptable password. 
+	 *  @param suggestion - Word that will be tested 
+	 *  	   if it can be used as a password
+	 *  @return false if the suggestion has less
+	 *          than 6 characters or it contains a space.
+	 */
+	public boolean acceptable(String suggestion) {
+		if (suggestion.length() < 6 || suggestion.contains(" ")) {
+			System.out.println("Input password is invalid!");
+			return false;
+		} else {
+			return true;
+		}
+	
+	}
+	
+	/**
+	 * Tests if a given word is equal to the current password.
+	 * @param test - String that will be tested against the current
+	 *         password
+	 * @return true If test String is equal to the current password
+	 */
+	public boolean testWord(String test) {
+		if (this.password.equals(test)) {
+			return true;
+		}
+		System.out.println("Input does not match password");
+		return false;
+
+	}
+	
+	/**
+	 * Changes the current password to a new password.
+	 * @param oldpass - The String of the old password
+	 * @param newpass - The String of the new password
+	 * @return true if oldpass is equal to the current 
+	 *         password and that newpass is an acceptable 
+	 *         password
+	 */
+	public boolean setWord(String oldpass, String newpass) {
+		
+		if (testWord(oldpass) == true && acceptable(newpass) == true) {
+			this.password = newpass;
+			return true;
+		}
+		return false;
+	}
+	
+}
+
+Week 2:
+
+P-2.4.1)
+
+package ss.week2;
+
+/**
+ * The class for a Rectangle.
+ * @version Version 1.0
+ * @author Joep Huijts
+ *
+ */
+public class Rectangle {
+	
+	//---------- Instance Variables----------
+	
+	//@ public invariant length >= 0;
+	public int length; 
+	
+	//@ public invariant width >= 0;
+	public int width;  
+	
+	//--------------Constructer-------------
+	/**
+	 * Constructer for the class Rectangle
+	 * with a specified length and width.
+	 * @ requires length >= 0;
+	 * 			  width >= 0;
+	 */
+	public Rectangle(int length, int width) {
+		this.length = length;
+		this.width = width;
+	}
+	
+	//-------------Queries------------------
+	/**
+	 * Return the length of the Rectangle.
+	 * @ ensures \result >= 0;
+	 */
+	/* pure */ public int length() {
+		return 0;
+	}
+	
+	/**
+	 * Return the width of the Rectangle.
+	 * @ ensures \result >= 0;
+	 */
+	/* pure */ public int width() {
+		return 0;
+	}
+	
+	/**
+	 * Return the area of the Rectangle.
+	 * @ ensure \result = width * length;
+	 */
+	/* pure */ public int area() {
+		return 0;
+	}
+	
+	/**
+	 * Return the perimeter of the Rectangle.
+	 * @ ensure \result = (2 * width) + (2 * length);
+	 */
+	public int perimeter() {
+		return 0;
+	}
+}
+
+P-2.2)
+
+package ss.week2;
+
+/**
+ * The class for a Rectangle.
+ * @version Version 1.0
+ * @author Joep Huijts
+ *
+ */
+public class Rectangle {
+	
+	//---------- Instance Variables----------
+	//@ public invariant length >= 0;
+	public int length; 
+		
+	//@ public invariant width >= 0;
+	public int width;
+	
+	//--------------Constructor-------------
+	/**
+	 * Constructor for the class Rectangle
+	 * with a specified length and width.
+	 * @ requires length >= 0;
+	 * 			  width >= 0;
+	 */
+	public Rectangle(int length, int width) {
+		assert length >= 0 :
+			"Length (" + length + ") is < 0";
+		assert width >= 0 :
+			"Width (" + width + ") is < 0";
+		
+		this.length = length;
+		this.width = width;
+	}
+	
+	//-------------Queries------------------
+	/**
+	 * Return the length of the Rectangle.
+	 * @ ensures \result >= 0;
+	 */
+	/* pure */ public int length() {
+		assert length >= 0 :
+			"Length (" + length + ") is < 0";
+		return this.length;
+	}
+	
+	/**
+	 * Return the width of the Rectangle.
+	 * @ ensures \result >= 0;
+	 */
+	/* pure */ public int width() {
+
+		assert width >= 0 :
+			"Width (" + width + ") is < 0";
+		return this.width;
+	}
+	
+	/**
+	 * Return the area of the Rectangle.
+	 * @ ensure \result = width * length;
+	 */
+	/* pure */ public int area() {
+		int area;
+		
+		area = width * length;
+		
+		assert area == width * length :
+			"Area (" + area + ") does not equal width * length = " + width * length;
+		
+		return area;
+	}
+	
+	/**
+	 * Return the perimeter of the Rectangle.
+	 * @ ensure \result = (2 * width) + (2 * length);
+	 */
+	/* pure */ public int perimeter() {
+
+		int perimeter;
+		
+		perimeter = (2 * width) + (2 * length);
+		
+		assert perimeter == (2 * width) + (2 * length) :
+			"Perimeter (" + perimeter + ") does not equal (2 * width) + (2 * length) = "
+				+  (2 * width) + (2 * length);
+
+		return perimeter;
+	}
+}
+
+
+P-2.3)
+By including conditional statements that which type of geometrical shape would determine the type 
+formulas used to fined the area and perimeter. If 3D geometrical were also included then another
+instance variable would have to be included for the height of the shape. The height would require
+another class invariant.
+
+The area and perimeter methods would need to account for the diffirent formulas and algorithms needed
+so the assert statements would verify that the correct algorithm was used.
+
+P-2.4)
+package ss.week2.test;
+
+import ss.week2.Rectangle;
+import static org.junit.Assert.*;
+import org.junit.*;
+
+/**
+ * The class that tests the Rectangle class.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class RectangleTest2 {
+
+	// Rectangle objects to be tested.
+	private Rectangle rect;
+	
+	/**
+	 * Test whether Rectangle can be set up. 
+	 */
+	@Test
+	public void testSetUp() {
+		rect = new Rectangle(10, 20);
+		assertEquals("Length: ", 10, rect.length());
+		assertEquals("Width: ", 20, rect.width());
+	}
+	
+	/**
+	 * Test if area is calculated correctly.
+	 */
+	@Test
+	public void testArea() {
+		rect = new Rectangle(5, 10);
+		assertEquals("Area: ", 50, rect.area());
+	}
+	
+	/**
+	 * Test if perimeter is calculated correctly.
+	 */
+	@Test
+	public void testPerimeter() {
+		rect = new Rectangle(5, 10);
+		assertEquals("Perimeter: ", 30, rect.perimeter());
+	}
+	
+}
+
+
+P-2.5)
+
+package ss.week2;
+/**
+ * The class for the three-way lamp.
+ * @author Joep Huijts
+ * @version Version 1.0
+ */
+public class Lamp {
+	
+	//---------------Instance Variables------------------
+	// static final variables for the different names of settings of the lamp.
+	public static final int OFF = 0;
+	public static final int LOW = 1;
+	public static final int MEDIUM = 2;
+	public static final int HIGH = 3;
+	
+	//@ private invariant setting < 4 && setting >= 0
+	private int setting;
+	
+	//------------------Constructor---------------------
+	/**
+	 * Create a new Lamp.
+	 * @ ensures setting = 0;
+	 */
+	public Lamp() {
+		setting = OFF;
+		
+		assert setting == OFF :
+			"Setting does not equal 0!";
+	}
+	
+	//-------------------Queries------------------------
+	/**
+	 * The current setting of the lamp.
+	 * @ ensure setting >= 0 && setting < 4;
+	 */
+	/* pure */ public String getSetting() {
+		
+		if (this.setting == OFF) {
+			return "off";
+		} else if (this.setting == LOW) {
+			return "low";
+		} else if (this.setting == MEDIUM) {
+			return "medium";
+		} else {
+			return "high";
+		}
+	}
+	
+	//----------------Commands---------------------------
+	/** 
+	 * Increment the setting of a lamp.
+	 * @ ensure setting >= 0 && setting < 4;
+	 */
+	public void switchSetting() {
+		
+		switch (setting) {
+			case OFF: 		
+				setting = LOW;
+				break;
+			case LOW:		
+				setting = MEDIUM;
+				break;
+			case MEDIUM:	
+				setting = HIGH;
+				break;
+			case HIGH:		
+				setting = OFF;
+				break;
+			default: 		
+				setting = OFF;
+				break;
+		}
+		
+		assert setting < 4 && setting >= 0 :
+			"Setting (" + setting + ") does has a value outside of 0, 1, 2, 3";
+	
+	}
+
+}
+
+P-2.6)
+
+
+package ss.week2;
+/**
+ * The class for the three-way lamp.
+ * @author Joep Huijts
+ * @version Version 1.0
+ */
+public class Lamp {
+	
+	//---------------Instance Variables------------------
+	public enum Setting { OFF, LOW, MEDIUM,	HIGH }
+
+	private Setting setting;
+	
+	//------------------Constructor---------------------
+	/**
+	 * Create a new Lamp.
+	 */
+	public Lamp() {
+		this.setting = Setting.OFF;
+	}
+	
+	//-------------------Queries------------------------
+	/**
+	 * The current setting of the lamp.
+	 */
+	/* pure */ public String getSetting() {
+		
+		return "" + setting;
+	}
+	
+	//----------------Commands---------------------------
+	/** 
+	 * Increment the setting of a lamp.
+	 */
+	public void switchSetting() {
+		
+		switch (setting) {
+			case OFF: 		
+				setting = Setting.LOW;
+				break;
+			case LOW:		
+				setting = Setting.MEDIUM;
+				break;
+			case MEDIUM:	
+				setting = Setting.HIGH;
+				break;
+			case HIGH:		
+				setting = Setting.OFF;
+				break;
+			default: 		
+				setting = Setting.OFF;
+				break;
+		}
+	}
+}
+
+
+P-2.7)
+
+package ss.week2.hotel;
+/**
+ * Class for a Safe located in a Room in a hotel.
+ * @author Joep Huijts
+ *@version Version 1.0
+ */
+public class Safe {
+
+	//---------------------Instance Variables----------------------
+	private Password password; // Safe's password.
+	private boolean isOpen;
+	private boolean isActive;
+	
+	//-------------------------Constructor-------------------------
+	/**
+	 * Creates a Safe.
+	 */
+	//@ ensures this.password == Password.INITIAL && isActive == true && isOpen == true;
+	public Safe(){
+		
+	}
+	
+	//-----------------------Queries-------------------------------
+	/**
+	 * Indicates whether Safe is open or not.
+	 */
+	/*@ pure */ public boolean isOpen() {
+		return false;
+	}
+	
+	/**
+	 * Indicate whether Safe is active or not.
+	 */
+	/*@ pure */ public boolean isActive() {
+		return false;
+	}
+	
+	/**
+	 * Return the password object to be used.
+	 */
+	/*@ pure */ public String getPassword() {
+		return null;
+	}
+	
+	//----------------------------Commands--------------------------
+	
+	/**
+	 * Activates the Safe, if the correct password is used.
+	 */
+	//@ ensures testWord(passAttempt) == true ==> isActive() == true;
+	public void activate(String passAttempt) {
+		
+	}
+	
+	/**
+	 * Closes the Safe and deactivates it.
+	 */
+	//@ ensures isActive() == false && isOpen() == false;
+	public void deactivate() {
+		
+	}
+	
+	/**
+	 * Open the Safe, if the Safe is active and the password is correct.
+	 */
+	//@ ensures testWord(passAttempt) == true ==> isOpen() == true;
+	public void open (String passAttempt) {
+		
+	}
+	
+	/**
+	 * Closes the Safe.
+	 */
+	//@ ensures isOpen() == false;
+	public void close() {
+		
+	}
+}
+
+P-2.8)
+- test initial state
+- test to activate an activated and open safe with correct password
+  test to activate an activated and closed safe with correct password
+  test to activate a deactivated safe with correct password
+- test to activate an activated and open safe with incorrect password
+  test to activate an activated and closed safe with incorrect password
+  test to activate a deactivated safe with incorrect password
+- test to deactivate a deactivated safe
+  test to deactivate an activated and open safe
+  test to deactivate an active and closed safe
+- test to open an active open safe with correct password
+  test to open an active closed safe with correct password
+- test to open an active open safe with incorrect password
+  test to open an active closed safe with incorrect password
+- test to open a deactivated safe with correct password
+- test to close a deactivated safe
+  test to close an active open safe
+  test to close an active closed safe
+
+
+package ss.week2.test;
+
+import ss.week2.hotel.*;
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class SafeTest {
+
+	private Safe safe;
+	
+	@Before
+	public void setUp() throws Exception {
+		safe = new Safe();
+	}
+
+	@Test
+	public void testSetUp() {
+		assertEquals("Password: ", "abcdefgh", safe.getPassword());
+		assertEquals("Is Safe open: ", true, safe.isOpen());
+		assertEquals("Is Safe active: ", true, safe.isActive());
+	}
+	
+	@Test
+	public void testActivateCorrectPassword() {
+		safe.activate("abcdefgh");
+		assertEquals("Activate open and activated safe with correct password: ",
+						true, safe.isActive());
+		safe.close();
+		safe.activate("abcdefgh");
+		assertEquals("Activate closed and activated safe with correct password: ",
+						true, safe.isActive());
+		safe.deactivate();
+		safe.activate("abcdefgh");
+		assertEquals("Activate deactivated safe with correct password: ",
+						true, safe.isActive());
+	}
+	
+	@Test
+	public void testActivateWrongPassword() {
+		safe.activate("wrong");
+		assertEquals("Activate open and actived safe with incorrect password: ",
+						true, safe.isActive());
+		safe.close();
+		safe.activate("wrong");
+		assertEquals("Activate closed and actived safe with incorrect password: ", 
+						true, safe.isActive());
+		safe.deactivate();
+		safe.activate("wrong");
+		assertFalse("Activate deactivated safe with incorrect password: ", safe.isActive());
+	}
+	
+	@Test
+	public void testOpenCorrectPassword() {
+		safe.open("abcdefgh");
+		assertTrue("Open activated and open safe with correct password: ", safe.isOpen());
+		safe.close();
+		safe.open("abcdefgh");
+		assertTrue("Open closed and activated safe with correct password: ", safe.isOpen());
+		safe.deactivate();
+		safe.open("abcdefgh");
+		assertFalse("Open deactivated safe with correct password: ", safe.isOpen());
+	}
+	
+	@Test
+	public void testOpenWrongPassword() {
+		safe.open("wrong");
+		assertTrue("Open activated and open safe with incorrect password: ", safe.isOpen());
+		safe.close();
+		safe.open("wrong");
+		assertFalse("Open closed and activated safe with incorrect password: ", safe.isOpen());
+		safe.deactivate();
+		safe.open("wrong");
+		assertFalse("Open deactivated safe with correct password: ", safe.isOpen());
+	}
+	
+	@Test
+	public void testClose() {
+		safe.close();
+		assertFalse("Close activated and open safe: ", safe.isOpen());
+		safe.close();
+		assertFalse("Close closed and activated safe: ", safe.isOpen());
+		safe.deactivate();
+		safe.close();
+		assertFalse("Close deactivated safe: ", safe.isOpen());
+	}
+	
+	@Test
+	public void testDeactivate() {
+		safe.deactivate();
+		assertFalse("Deactivate activated and open safe: check if active ", safe.isActive());
+		assertFalse("Deactivate activated and open safe: check if open ", safe.isOpen());
+		safe.activate("abcdefgh");
+		safe.deactivate();
+		assertFalse("Deactivate closed and activated safe: check if active ", safe.isActive());
+		assertFalse("Deactivate closed and activated safe: check if open", safe.isOpen());
+		safe.deactivate();
+		assertFalse("Deactivate deactivated safe: check if active ", safe.isActive());
+		assertFalse("Deactivate deactivated safe: check if open ", safe.isOpen());
+	}
+}
+
+P-2.9)
+
+package ss.week2.hotel;
+/**
+ * Class for a Safe located in a Room in a hotel.
+ * @author Joep Huijts
+ *@version Version 1.0
+ */
+public class Safe {
+
+	//---------------------Instance Variables----------------------
+	private Password pass; // Safe's password.
+	private boolean isOpen;
+	private boolean isActive;
+	
+	//-------------------------Constructor-------------------------
+	/**
+	 * Creates a Safe.
+	 */
+	//@ ensures this.password == Password.INITIAL && isActive == true && isOpen == true;
+	public Safe() {
+		this.pass = new Password();
+		this.isActive = true;
+		this.isOpen   = true;
+		
+		assert this.getPassword() == Password.INITIAL && this.isActive() == true
+				&& this.isOpen() == true;
+	}
+	
+	//-----------------------Queries-------------------------------
+	/**
+	 * Indicates whether Safe is open or not.
+	 */
+	/* pure */ public boolean isOpen() {
+		return this.isOpen;
+	}
+	
+	/**
+	 * Indicate whether Safe is active or not.
+	 */
+	/* pure */ public boolean isActive() {
+		return this.isActive;
+	}
+	
+	/**
+	 * Return the password object to be used.
+	 */
+	/* pure */ public String getPassword() {
+		return this.pass.password;
+	}
+	
+	//----------------------------Commands--------------------------
+	
+	/**
+	 * Activates the Safe, if the correct password is used.
+	 */
+	//@ ensures testWord(passAttempt) == true ==> isActive() == true;
+	public void activate(String passAttempt) {
+		if (pass.testWord(passAttempt)) {
+			this.isActive = true;
+		}
+		
+		assert pass.testWord(passAttempt) == true && this.isActive() == true;
+	}
+	
+	/**
+	 * Closes the Safe and deactivates it.
+	 */
+	//@ ensures isActive() == false && isOpen() == false;
+	public void deactivate() {
+		this.isActive = false;
+		this.isOpen   = false;
+		
+		assert this.isActive() == false && this.isOpen() == false;
+	}
+	
+	/**
+	 * Open the Safe, if the Safe is active and the password is correct.
+	 */
+	//@ ensures testWord(passAttempt) == true ==> isOpen() == true;
+	public void open(String passAttempt) {
+		if (pass.testWord(passAttempt) && this.isActive() == true) {
+			this.isOpen = true;
+		}
+		
+		assert pass.testWord(passAttempt) == true && this.isActive() == true
+				&& this.isOpen() == true;
+	}
+	
+	/**
+	 * Closes the Safe.
+	 */
+	//@ ensures isOpen() == false;
+	public void close() {
+		this.isOpen = false;
+		
+		assert this.isOpen() == false;
+	}
+}
+
+P-2.10)
+-The packages ss.week2.hotel and ss.week2.test were covered by the test.
+- In ss.week2.test SafeTest.java was completely covered.
+- In ss.week2.hotel, Safe.java is 55.3% covered, all the assert statements were skipped.
+- In ss.week2.hotel, Password.java is 37.5% covered, as 2 of its 3 methods weren't used.
+- the test coverage can be improved by activating asserts and using all the methods in Password in Safe..
+
+P-2.11)
+
+package ss.week2.hotel;
+/**
+ * Class for a Safe located in a Room in a hotel.
+ * @author Joep Huijts
+ *@version Version 1.0
+ */
+public class Safe {
+
+	//---------------------Instance Variables----------------------
+	private Password pass; // Safe's password.
+	private boolean isOpen;
+	private boolean isActive;
+	
+	//-------------------------Constructor-------------------------
+	/**
+	 * Creates a Safe.
+	 */
+	//@ requires newPass.length() >= 6 && !(newPass.contains(" "));
+	//@ ensures this.password == Password.INITIAL && isActive == true && isOpen == true;
+	public Safe(String newPass) {
+		 assert newPass.length() >= 6 && !(newPass.contains(" ")) :
+			 "Input password is invalid!";
+		
+		this.pass = new Password();
+		this.pass.setWord(Password.INITIAL, newPass);
+		this.isActive = true;
+		this.isOpen   = true;
+		
+		assert this.getPassword() == newPass && this.isActive() == true
+				&& this.isOpen() == true;
+	}
+	
+	//-----------------------Queries-------------------------------
+	/**
+	 * Indicates whether Safe is open or not.
+	 */
+	/* pure */ public boolean isOpen() {
+		return this.isOpen;
+	}
+	
+	/**
+	 * Indicate whether Safe is active or not.
+	 */
+	/* pure */ public boolean isActive() {
+		return this.isActive;
+	}
+	
+	/**
+	 * Return the password object to be used.
+	 */
+	/* pure */ public String getPassword() {
+		return this.pass.password;
+	}
+	
+	//----------------------------Commands--------------------------
+	
+	/**
+	 * Activates the Safe, if the correct password is used.
+	 */
+	//@ ensures testWord(passAttempt) == true ==> isActive() == true;
+	public void activate(String passAttempt) {
+		if (pass.testWord(passAttempt)) {
+			this.isActive = true;
+		}
+		
+		assert pass.testWord(passAttempt) == true && this.isActive() == true;
+	}
+	
+	/**
+	 * Closes the Safe and deactivates it.
+	 */
+	//@ ensures isActive() == false && isOpen() == false;
+	public void deactivate() {
+		this.isActive = false;
+		this.isOpen   = false;
+		
+		assert this.isActive() == false && this.isOpen() == false;
+	}
+	
+	/**
+	 * Open the Safe, if the Safe is active and the password is correct.
+	 */
+	//@ ensures testWord(passAttempt) == true ==> isOpen() == true;
+	public void open(String passAttempt) {
+		if (pass.testWord(passAttempt) && this.isActive() == true) {
+			this.isOpen = true;
+		}
+		
+		assert pass.testWord(passAttempt) == true && this.isActive() == true
+				&& this.isOpen() == true;
+	}
+	
+	/**
+	 * Closes the Safe.
+	 */
+	//@ ensures isOpen() == false;
+	public void close() {
+		this.isOpen = false;
+		
+		assert this.isOpen() == false;
+	}
+	
+	/**
+	 * Safe's main method.
+	 */
+	//@ ensures this.pass.password.length() >= 6 && !(this.pass.password.contains(" ");
+	public static void main(String[] args) {
+		
+		Safe safe;
+		safe = new Safe("wrong");
+		
+		safe.close();
+		safe.open("wrong");
+		
+		
+	}
+}
+
+p-2.12)
+
+package ss.week2.test;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import ss.week1.Password;
+import ss.week2.hotel.Guest;
+import ss.week2.hotel.Room;
+
+import static org.junit.Assert.assertEquals;
+
+public class RoomTest {
+    private Guest guest;
+    private Room room;
+
+    @Before
+    public void setUp() {
+        guest = new Guest("Jip");
+        room = new Room(101, Password.INITIAL);
+    }
+
+    @Test
+    public void testSetUp() {
+        assertEquals(101, room.getNumber());
+    }
+
+    @Test
+    public void testSetGuest() {
+        room.setGuest(guest);
+        assertEquals(guest, room.getGuest());
+    }
+    
+    @Test
+    public void testSafe() {
+    	assertEquals("Password: ", Password.INITIAL, room.getSafe().getPassword());
+    	assertEquals("Is open: ", true, room.getSafe().isOpen());
+    	assertEquals("Is active: ", true, room.getSafe().isActive());
+    }
+}
+
+package ss.week2.hotel;
+
+/**
+ * Hotel room with number and possibly a guest.
+ * @author Arend Rensink
+ * @version $Revision: 1.2 $
+ */
+public class Room {
+    // ------------------ Instance variables ----------------
+
+    private int number;
+    private Guest guest;
+    private Safe safe;
+
+    // ------------------ Constructor ------------------------
+
+    /**
+     * Creates a <code>Room</code> with the given number, without a guest.
+     */
+    //@ requires passAttempt.length() >= 6 && !(passAttempt.contains(" ");
+    public Room(int no, String passAttempt) {
+    	number = no;
+    	safe = new Safe(passAttempt);
+    }
+
+    // ------------------ Queries --------------------------
+
+    /**
+     * Returns the number of this <code>Room</code>.
+     */
+    public int getNumber() {
+    	return number;
+    }
+
+    /**
+     * Returns the current guest living in this <code>Room</code>.
+     * @return the guest of this <code>Room</code>;
+     *         <code>null</code> if this <code>Room</code> 
+     *         is not currently rented
+     */
+    public Guest getGuest() {
+    	return guest;
+    }
+    
+    /**
+     * Return the Safe located in the Room.
+     */
+    /* pure */  public Safe getSafe() {
+    	return safe;
+    }
+
+    // ------------------ Commands --------------------------
+
+    /**
+     * Assigns a <code>Guest</code> to this <code>Room</code>.
+     * @param g the next guest renting this <code>Room</code>;
+     *        if <code>null</code> is passed, this <code>Room</code>
+     *        is empty afterwards
+     */
+    public void setGuest(Guest g) {
+    	guest = g;
+    }
+    
+    /**
+	 * Presents <code>Room</code>'s state in a string.
+	 */
+	public String toString() {
+		return "Room Number: " + this.number;
+	}
+}
+
+P-2.13)
+package ss.week2.hotel;
+
+/**
+ * The class for a Hotel.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class Hotel {
+
+	//--------------------------INSTANCE VARIABLES--------------------
+	private Room room1; // A room of the Hotel.
+	private Room room2; // A room of the Hotel.
+	private Password checkInPass; // Password of the Hotel's check in process.
+	private String name; // Name of the hotel.
+	
+	//--------------------------CONSTRUCTOR----------------------------
+	/**
+	 * Create a Hotel with a specific password, two rooms and its name.
+	 * @param password - Hotels password for its check in process.
+	 */
+	//@ ensures this.name == name;
+	public Hotel(String name) {
+		
+	}
+	
+	//---------------------------QUERIES---------------------------------
+	/**
+	 * Check if any room is free and available.
+	 * @return room that is not being used by a guest.
+	 */
+	//@ ensures \result == null || \result == room;
+	public Room getFreeRoom() {
+		return null;
+	}
+	
+	/**
+	 * Returns the Hotel name.
+	 * @return name - name of hotel.
+	 */
+	public String getName() {
+		return null;
+	}
+	
+	/**
+	 * Returns a textual description of all rooms in the hotel,
+	 * including the name of the guest and the status of the 
+	 * safe in that room.
+	 * @return 
+	 */
+	public String toString() {
+		return null;
+	}
+	
+	/**
+	 * Return the Password of the Check in process;
+	 * @return checkInPass - password for the check in.
+	 */
+	public Password getPassword() {
+		return null;
+	}
+	
+	/**
+	 * Return the Room of a specified guest.
+	 * @param guestName - Name of a guest.
+	 * @return The room that a guest is staying in.
+	 */
+	public Room getRoom(String guestName) {
+		return null;
+	}
+	
+	//----------------------------------COMMANDS------------------------------
+	/**
+	 * Check a new guest into a Room if the Room is empty and the check in password is correct.
+	 * @param password - password of the Hotel.
+	 * @param guestName - name of guest to be checked in.
+	 */
+	//@ ensures this.getPassword() == password && room.getGuest().getName().equals(guestName);
+	public void checkIn(String password, String guestName) {
+		
+	}
+	
+	/**
+	 * Check a guest out of a room through finding his/her room trough their name.
+	 * @param guestName - the name of a guest.
+	 */
+	//@ ensures room.getGuest().getName.equals(guestName);
+	public void checkOut(String guestName) {
+		
+	}
+}
+
+P-2.14)
+
+package ss.week2.hotel;
+
+/**
+ * The class for a Hotel.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class Hotel {
+
+	//--------------------------INSTANCE VARIABLES--------------------
+	private Room room1; // A room of the Hotel.
+	private Room room2; // A room of the Hotel.
+	private Password checkInPass; // Password of the Hotel's check in process.
+	private String name; // Name of the hotel.
+	
+	//--------------------------CONSTRUCTOR----------------------------
+	/**
+	 * Create a Hotel with a specific password, two rooms and its name.
+	 * @param password - Hotels password for its check in process.
+	 */
+	//@ requires name != null;
+	//@ ensures this.name == name;
+	public Hotel(String name) {
+		assert name != null;
+		
+		this.name = name;
+		checkInPass = new Password();
+		room1 = new Room(101, Password.INITIAL);
+		room2 = new Room(102, Password.INITIAL);
+		
+		assert this.name == name;
+	}
+	
+	//---------------------------QUERIES---------------------------------
+	/**
+	 * Check if any room is free and available.
+	 * @return room that is not being used by a guest.
+	 */
+	//@ ensures \result == null || \result == room1 || \result == room2;
+	public Room getFreeRoom() {
+		
+		if (room1.getGuest() == null) {
+			return room1;
+		} else if (room2.getGuest() == null) {
+			return room2;
+		} else {
+			return null;
+		}
+		
+		
+	}
+	
+	/**
+	 * Returns the Hotel name.
+	 * @return name - name of hotel.
+	 */
+	public String getName() {
+		return this.name;
+	}
+	
+	/**
+	 * Returns a textual description of all rooms in the hotel,
+	 * including the name of the guest and the status of the 
+	 * safe in that room.
+	 * @return textual description of all rooms including guest's name and the state of the safe;
+	 */
+	public String toString() {
+		String strRoom1 = room1 + " is occupied by no one. The safe is active: " 
+						+ Boolean.toString(room1.getSafe().isActive());
+		String strRoom2 = room2 + " is occupied by no one. The safe is active: " 
+						+ Boolean.toString(room2.getSafe().isActive());
+		
+		if (room1.getGuest() != null) {
+			strRoom1 = room1 + " is occupied by " + room1.getGuest().getName() 
+					+ ". The safe is active: " + Boolean.toString(room1.getSafe().isActive());
+		}
+		if (room2.getGuest() != null) {
+			strRoom2 = room2 + " is occupied by " + room2.getGuest().getName() 
+					+ ". The safe is active: " + Boolean.toString(room2.getSafe().isActive());
+		}
+		
+		return strRoom1 + "/n" + strRoom2;
+	}
+	
+	/**
+	 * Return the Password of the Check in process.
+	 * @return checkInPass - password for the check in.
+	 */
+	public Password getPassword() {
+		return this.checkInPass;
+	}
+	
+	/**
+	 * Return the Room of a specified guest.
+	 * @param guestName - Name of a guest.
+	 * @return The room that a guest is staying in.
+	 */
+	public Room getRoom(String guestName) {
+
+		if (room1.getGuest() != null && room1.getGuest().getName().equals(guestName)) {
+			return room1;
+		} else if (room2.getGuest() != null && room2.getGuest().getName().equals(guestName)) {
+			return room2;
+		} else {
+			return null;
+		}
+	}
+	
+	//----------------------------------COMMANDS------------------------------
+	/**
+	 * Check a new guest into a Room if the Room is empty and the check in password is correct.
+	 * @param password - password of the Hotel.
+	 * @param guestName - name of guest to be checked in.
+	 */
+	//@ requires this.getPassword().password == password && guestName != null;
+	public Room checkIn(String password, String guestName) {
+	assert this.getPassword().password == password && guestName != null :
+			"The guest was not checked in, password or guestname invallid!";
+		
+		if (this.getFreeRoom() != null && this.getPassword().testWord(password)) {
+			Guest guest;
+			guest = new Guest(guestName);
+			
+			guest.checkIn(this.getFreeRoom());
+			
+			if (room1.getGuest().getName().equals(guestName)) {
+				return room1;
+			} else {
+				return room2;
+			}
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Check a guest out of a room through finding his/her room trough their name.
+	 * @param guestName - the name of a guest.
+	 */
+	//@ requires guestName != null;
+	//@ ensures room.getGuest().getName().equals(guestName);
+	public void checkOut(String guestName) {
+	
+		assert guestName != null : 
+			"The guest name is null";
+		
+		if (getRoom(guestName) != null) {
+			Room room;
+			room = getRoom(guestName);
+			
+			room.getGuest().checkOut();
+			room.getSafe().deactivate();
+			
+			assert room.getGuest().getName().equals(guestName) :
+				"Input guest name does not match any guests in Hotel!";
+		}
+		
+		
+	}
+		
+}
+
+

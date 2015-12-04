@@ -1,0 +1,1110 @@
+P- 4.1)
+
+package ss.week4;
+
+/**
+ * A Test class for the problem 13.1 in Nino & Hosch.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class Exercises {
+	
+	//----------------------------Queries------------------------------------------
+	/**
+	 * Returns the negative values in an array.
+	 * @param arr - an int[] containing different int values.
+	 * @return result - an int[] containing the 
+	 * negative values of an input array.
+	 */
+	//@ requires arr != null;
+    public static int countNegativeNumbers(int[] arr) {
+        
+    	assert arr != null; // assert that arr is not null;
+    	 
+    	int negCount = 0; // Create and initialized negative value counter;
+    	
+    	// For loop to check every int in the array;
+    	for (int i = 0; i < arr.length; i++) {
+    		// If the ith variable in arr contains a negative value, the negCount is incremented;
+    		if (arr[i] < 0) {
+    			negCount++;
+    		}
+    	}
+    	
+    	return negCount;
+    }
+    
+    /**
+	 * Returns the input array with all the values reversed.
+	 * @param ints - an int[] containing different int values.
+	 * @return result - an int[] containing the 
+	 * values of the input array, but those values are reversed 
+	 * with the first becoming the last etc.
+	 */
+	//@ requires ints != null;
+    public static void reverseArray(int[] ints) {
+    	
+    	assert ints != null;
+    	
+    	int temp; // A temporary int variable to store a value of ints;
+    	int begin = 0;
+    	int end = ints.length - 1;
+    	
+    	while (begin < end) {
+    		temp = ints[begin]; // temp stores the value of ints at index begin;
+    		
+    		ints[begin] = ints[end]; // Switch the first variable with the later one;
+    		ints[end] = temp;  // Swith the later variable with the first one;
+    		
+    		begin++; // Increment begin;
+    		end--; // Decrement end;
+    	}
+        
+    }
+
+    class SimpleList {
+        public class Element {}
+
+        public class Node {
+            public Node next;
+            public Element element;
+        }
+
+        private Node first;
+
+        private Node find(Element element) {
+            Node p = first;
+            if (p == null) {
+                return null;
+            }
+            while (p.next != null && !p.next.element.equals(element)) {
+                p = p.next;
+            }
+            if (p.next == null) {
+                return null;
+            } else {
+                return p;
+            }
+        }
+
+        public void remove(Element element) {
+            Node p = find(element);
+            if (p != null) {
+                p.next = p.next.next;
+            }
+        }
+    }
+}
+
+P-4.2)
+
+package ss.week4;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * The class of Util.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class Util {
+	
+	//-----------------------------Commands----------------------------------------
+    public static <E> List<E> zip(List<E> l1, List<E> l2) {
+    	
+        ArrayList<E> result = new ArrayList<E>();
+        for (int i = 0; i < l1.size(); i++) {
+            result.add(l1.get(i));
+            result.add(l2.get(i));
+        }
+        return result;
+    }    
+
+    /**
+     * signum function.
+     * @param i the function argument
+     * @return -1, 0 or 1 if the argument is negative, 0 or positive
+     */
+    public static int signum(int i) {
+        if (i < 0) {
+            return -1;
+        } else if (i > 0) {
+            return 1;
+        } else { 
+        	return 0;
+        }
+    }
+}
+
+
+P-4.3)
+package ss.week4;
+
+
+/**
+ * The interface Function modeling different mathematical functions.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public interface Function {
+
+	
+	//----------------------------Commands---------------------
+	/**
+	 * Executes the function to an argument of type double.
+	 * @param arg - a value of type double that the function is 
+	 * applied to.
+	 * @return \result - the value created when the function is 
+	 * performed on the parameter.
+	 */
+	public double apply(double arg);
+	
+	//-------------------------------Queries---------------------
+	/**
+	 * Return the derivative of a Function object that is derivative 
+	 * of the current object.
+	 * @return result - The function object containing the derivative 
+	 * of the current object.
+	 */
+	public Function derivative();
+	
+	/**
+	 * Returns a string representation of the function.
+	 * @return - String representation of the function.
+	 */
+	public String toString();
+}
+
+P-4.4)
+
+package ss.week4;
+
+/**
+ * The class for the Constant function.
+ * @author Joep Huijts
+ * @version Version 1.0
+ */
+public class Constant implements Function {
+
+	//-----------------------Instance Variables------------------
+	private double constant; // The constant value;
+	
+	//-------------------------Constructor------------------------
+	/**
+	 * Create a Constant.
+	 * @param number - input the number the new Constant will be.
+	 */
+	public Constant(double number) {
+		this.constant = number;
+	}
+	
+	/**
+	 * Returns the constant of type double.
+	 * @param arg - a parameter that is not used.
+	 * @return \result - the constant.
+	 */
+	/*@ pure*/ public double apply(double arg) { 
+		return this.constant;
+	}
+	
+	/**
+	 * Return the derivative of a Function object that is derivative 
+	 * of the current object.
+	 * @return result - The function object containing the derivative 
+	 * of the current object.
+	 */
+	//@ ensures newConstant(0).apply == 0;
+	public Function derivative() {
+		Function newConstant = new Constant(0);
+		
+		assert newConstant.apply(0) == 0;
+		
+		return newConstant;
+	}
+	
+	/**
+	 * Returns a string representation of the constant.
+	 * @return - String representation of the constant.
+	 */
+	/*@ pure */ public String toString() {
+		return "The constant is " + this.apply(0);
+	}
+
+}
+
+P-4.5) 
+
+package ss.week4.math;
+
+/**
+ * The class for Sum, which defines the sum of two Functions.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class Sum implements Function {
+
+	//-----------------Instance Variables----------------------
+	private Function func1; // One of the Functions to be used;
+	private Function func2; // One of the Functions to be used;
+	
+	//-----------------Constructor-----------------------------
+	/**
+	 * Create the Sum of two Functions.
+	 * @param func1 - a Function object to be used.
+	 * @param func2 - another Function object to be used.
+	 */
+	public Sum(Function function1, Function function2) {
+		
+		this.func1 = function1;
+		this.func2 = function2;
+	}
+	
+	//------------------Queries-----------------------
+	
+	/**
+	 * Return the Sum of two Functions.
+	 * @param arg - a value of type double.
+	 * @return sum - the sum of the two Functions.
+	 */
+	public double apply(double arg) {
+		return func1.apply(arg) + func2.apply(arg); // The sum of the two Functions;
+	}
+	
+	/**
+	 * Return the derivative of the Sum of two Function objects.
+	 * @return result - The function object containing the derivative 
+	 * of the Sum.
+	 */
+	public Function derivative() {
+		// New Sum object using the derivatives of the two functions as parameters;
+		Sum derivSum = new Sum(this.func1.derivative(), this.func2.derivative());
+		
+		return derivSum;
+	}
+	
+	/**
+	 * Returns a string representation of the sum value.
+	 * @return - String representation of the sum value.
+	 */
+	public String toString() {
+		return "The sum is: " + this.apply(0);
+	}
+}
+
+P-4.6)
+
+package ss.week4.math;
+
+/**
+ * The class Product, which defines the product of two Functions.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class Product implements Function {
+	
+	//-----------------Instance Variables----------------------
+	private Function func1; // One of the Functions to be used;
+	private Function func2; // One of the Functions to be used;
+		
+	//-----------------Constructor-----------------------------
+	/**
+	 * Create the Product of two Functions.
+	 * @param func1 - a Function object to be used.
+	 * @param func2 - another Function object to be used.
+	 */
+	public Product(Function function1, Function function2) {
+			
+		this.func1 = function1;
+		this.func2 = function2;
+	}
+		
+	//------------------Queries-----------------------
+		
+	/**
+	 * Return the Product of two Functions.
+	 * @param arg - a value of type double.
+	 * @return result - the product of the two Functions.
+	 */
+	public double apply(double arg) {
+		return func1.apply(arg) * func2.apply(arg); // The product of the two Functions;
+	}
+		
+	/**
+	 * Return the derivative of the Product of two Function objects.
+	 * @return result - The function object containing the derivative.
+	 */
+	public Function derivative() {
+		// New Product object using the derivatives of the two functions as well as 
+		// the functions themselves as parameters;
+		// Both Sum and Product functions are used as if f = g * h then
+		//													f' = (g' * h) + (h' * g);
+		Sum derivProduct = new Sum(new Product(this.func1.derivative(), this.func2), 
+						new Product(this.func2.derivative(), this.func1));
+		
+		return derivProduct;
+	}
+		
+	/**
+	 * Returns a string representation of the product value.
+	 * @return - String representation of the product value.
+	 */
+	public String toString() {
+		return "The product is: " + this.apply(0);
+	}
+
+}
+
+
+P-4.7)
+
+package ss.week4.math;
+
+/**
+ * The class LinearProduct, which defines the product of a Function and a Constant.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class LinearProduct extends Product {
+
+	//------------------------Instance Variable-------------------------
+	private Function function; // Function that will be used;
+	private Constant constant; // Constant that will be used in function;
+	
+	//------------------------Constructor-------------------------------
+	/**
+	 * Create a LinearProduct with a given function and constant.
+	 * @param function1 - a Function object.
+	 * @param constant - a Constant object.
+	 */
+	//@ ensures this.function == function1 && this.constant == constant;
+	public LinearProduct(Function function1, Constant constant) {
+		super(function1, constant); 
+		// Uses the constructor of Product while specifying 
+		// that the second function is a Constant function object;
+		
+		this.function = function1;
+		this.constant = constant;
+		
+		assert this.function == function1 && this.constant == constant;
+	}
+	
+	/**
+	 * Return the derivative of the Product of two Function objects.
+	 * @return result - The function object containing the derivative.
+	 */
+	public Function derivative() {
+		// New LinearProduct object is created using the derivative of the 
+		// function as a parameter along with the constant;
+		// If f(x) = g(x) * constant ==> f'(x) = g'(x) * constant;
+		LinearProduct derivLinearProduct = new LinearProduct(this.function.derivative(), 
+						this.constant);
+		
+		return derivLinearProduct;
+	}
+
+}
+
+P-4.8)
+
+package ss.week4.math;
+
+public class Exponent implements Function {
+
+
+	//---------------------Instance Variables--------------------
+	private int exponent; // The exponent integer used in the function;
+	
+	//-------------------------Constructor-----------------------
+	
+	/**
+	 * Create an Exponent function with a given exponent.
+	 * @param value - the integer that will become the exponent.
+	 */
+	public Exponent(int value) {
+		this.exponent = value;
+	}
+	
+	//----------------------Queries------------------------------
+	/**
+	 * Executes the function to an argument of type double.
+	 * @param arg - a value of type double that the Exponent is 
+	 * applied to.
+	 * @return \result - the value created after applying the Exponent.
+	 */
+	//@ ensures index == this.exponent;
+	public double apply(double arg) {
+		// Store arg in a local variable;
+		double result = arg;
+		if (this.exponent == 0) {
+			return 1;
+		} else {
+		
+			// An int index is created to track how much the double value multiplies itself;
+			int index = 1;
+		
+			// Use a while loop to multiply result with itself;
+			while (index < this.exponent) { 
+				// Condition checks whether result has multiplied itself this.exponent times;
+				result = result * result;
+			
+				index++; // Increment the index;
+			}
+			// Assert that the loop has run the correct amount of times;
+			assert index == this.exponent; 
+		}
+		return result;
+	}
+	
+	/**
+	 * Return the derivative of an Exponent object.
+	 * @return \result - The functional object containing the derivative 
+	 * of the current object.
+	 */
+	public Function derivative() {
+		// New LinearProduct object is created using the following formula:
+		// If f(x) = g(x) ^ (this.exponent) ==> 
+		//									f'(x) = (g(x) ^ (this.exponent - 1)) * this.exponent;
+		LinearProduct derivLinearProduct = new LinearProduct(new Exponent(this.exponent - 1), 
+						new Constant(this.exponent));
+		
+		return derivLinearProduct;
+	}
+	
+	
+	/**
+	 * Returns a string representation of the Exponent.
+	 * @return - String representation of the Exponent.
+	 */
+	public String toString() {
+		return "The exponent is: " + this.exponent;
+	}
+
+}
+
+P-4.9)
+
+     package ss.week4.math;
+
+/**
+ * The class Polynomial, which defines arbitrary polynamial functions.
+ * @author Joep Huijts
+ * @version 1.0
+ *
+ */
+public class Polynomial implements Function {
+
+
+	//---------------------Instance Variables--------------------
+	private LinearProduct[] polynomials; // The array used in the function;
+	
+	//-------------------------Constructor-----------------------
+	
+	/**
+	 * Create an Polynomial function with a given array of numbers.
+	 * @param array - the values that will be used in the function.
+	 */
+	public Polynomial(double[] array) {
+		// The array of the polynomial function;
+		polynomials = new LinearProduct[array.length];
+		
+		// For loop that creates a new LinearProduct for every element of array;
+		for (int i = 0; i < array.length; i++) {
+			Exponent exponent = new Exponent((int) array[i]);
+			Constant constant = new Constant(array[i]);
+			
+			polynomials[i] = new LinearProduct(exponent, constant);
+		}
+	}
+	
+	//----------------------Queries------------------------------
+	
+	/**
+	 * Executes the function to an argument of type double.
+	 * @param arg - a value of type double that the Polynomial is 
+	 * applied to.
+	 * @return \result - the value created after applying the Polynomial.
+	 */
+	public double apply(double arg) {
+		
+		double elementProduct; // Store the temporary double when LinearProduct's method is used;
+		double sum = 0; // The sum of the different LinearProduct elements;
+		
+		// For loop to calculate and add the linear product for every LinearProduct object;
+		for (int i = 0; i < polynomials.length; i++) {
+			elementProduct = polynomials[i].apply(arg);
+			sum = sum + elementProduct;
+		}
+		
+		return sum;
+	}
+	
+	/**
+	 * Return the derivative of the Polynomial object.
+	 * @return \result - The functional object containing the derivative 
+	 * of the current object.
+	 */
+	public Function derivative() {
+		// New LinearProduct object is created using the following formula:
+		// If f = (g ^ (constant)) * constant +... + constant ==> 
+		//									f' = (g(x) ^ (constant - 1)) * (constant * constantn) 
+		//									+ ... + constant1;
+			
+		Sum derivPolynomial = null;  //Create a new Sum function.
+		Function firstSum = polynomials[0].derivative();
+		
+		
+		for (int i = 1; i < polynomials.length; i++) {
+			 
+			Function temp =  polynomials[i].derivative();
+			
+			if (derivPolynomial == null) {
+				derivPolynomial = new Sum(firstSum, temp);
+			} else {
+	
+				derivPolynomial = new Sum(derivPolynomial, temp);
+			}
+			
+		}
+		
+		
+		return derivPolynomial;
+	}
+	
+	
+	/**
+	 * Returns a string representation of the Polynomial.
+	 * @return - String representation of the Polynomial.
+	 */
+	public String toString() {
+		return "The result of the polynomial function is: " + this.polynomials;
+	}
+	
+	/**
+	 * Returns the integrand of the Polynomial function.
+	 * @return result - the integrand of the function.
+	 */
+	public Function integrand() {
+		
+		Sum intePolynomial = null;  //Create a new Sum function.
+		Function firstTemp = polynomials[0].integrand();
+		
+		
+		for (int i = 1; i < polynomials.length; i++) {
+			 
+			Function temp =  polynomials[i].integrand();
+			
+			if (intePolynomial == null) {
+				intePolynomial = new Sum(firstTemp, temp);
+			} else {
+	
+				intePolynomial = new Sum(intePolynomial, temp);
+			}
+			
+		}
+		
+		return intePolynomial;
+	}
+
+}
+     
+
+P-4.10)
+
+package ss.week4.math;
+
+/**
+ * The interface Integrandeble which defines how to integrate a function.
+ * @author Joep Huijts
+ * @version 1.0
+ *
+ */
+public interface Integrandable {
+
+	/**
+	 * Returns the integrand of a function.
+	 * @return result - the integrand of the function.
+	 */
+	public Function integrand();
+}
+
+
+P-4.11)
+Because not all the functions (Product) have an integrand.
+
+P-4.12) 
+package ss.week4.math;
+
+/**
+ * The class Polynomial, which defines arbitrary polynamial functions.
+ * @author Joep Huijts
+ * @version 1.0
+ *
+ */
+public class Polynomial implements Function {
+
+
+	//---------------------Instance Variables--------------------
+	private LinearProduct[] polynomials; // The array used in the function;
+	
+	//-------------------------Constructor-----------------------
+	
+	/**
+	 * Create an Polynomial function with a given array of numbers.
+	 * @param array - the values that will be used in the function.
+	 */
+	public Polynomial(double[] array) {
+		// The array of the polynomial function;
+		polynomials = new LinearProduct[array.length];
+		
+		// For loop that creates a new LinearProduct for every element of array;
+		for (int i = 0; i < array.length; i++) {
+			Exponent exponent = new Exponent((int) array[i]);
+			Constant constant = new Constant(array[i]);
+			
+			polynomials[i] = new LinearProduct(exponent, constant);
+		}
+	}
+	
+	//----------------------Queries------------------------------
+	
+	/**
+	 * Executes the function to an argument of type double.
+	 * @param arg - a value of type double that the Polynomial is 
+	 * applied to.
+	 * @return \result - the value created after applying the Polynomial.
+	 */
+	public double apply(double arg) {
+		
+		double elementProduct; // Store the temporary double when LinearProduct's method is used;
+		double sum = 0; // The sum of the different LinearProduct elements;
+		
+		// For loop to calculate and add the linear product for every LinearProduct object;
+		for (int i = 0; i < polynomials.length; i++) {
+			elementProduct = polynomials[i].apply(arg);
+			sum = sum + elementProduct;
+		}
+		
+		return sum;
+	}
+	
+	/**
+	 * Return the derivative of the Polynomial object.
+	 * @return \result - The functional object containing the derivative 
+	 * of the current object.
+	 */
+	public Function derivative() {
+		// New LinearProduct object is created using the following formula:
+		// If f = (g ^ (constant)) * constant +... + constant ==> 
+		//									f' = (g(x) ^ (constant - 1)) * (constant * constantn) 
+		//									+ ... + constant1;
+			
+		Sum derivPolynomial = null;  //Create a new Sum function.
+		Function firstSum = polynomials[0].derivative();
+		
+		
+		for (int i = 1; i < polynomials.length; i++) {
+			 
+			Function temp =  polynomials[i].derivative();
+			
+			if (derivPolynomial == null) {
+				derivPolynomial = new Sum(firstSum, temp);
+			} else {
+	
+				derivPolynomial = new Sum(derivPolynomial, temp);
+			}
+			
+		}
+		
+		
+		return derivPolynomial;
+	}
+	
+	
+	/**
+	 * Returns a string representation of the Polynomial.
+	 * @return - String representation of the Polynomial.
+	 */
+	public String toString() {
+		return "The result of the polynomial function is: " + this.polynomials;
+	}
+	
+	/**
+	 * Returns the integrand of the Polynomial function.
+	 * @return result - the integrand of the function.
+	 */
+	public Function integrand() {
+		
+		Sum intePolynomial = null;  //Create a new Sum function.
+		Function firstTemp = polynomials[0].integrand();
+		
+		
+		for (int i = 1; i < polynomials.length; i++) {
+			 
+			Function temp =  polynomials[i].integrand();
+			
+			if (intePolynomial == null) {
+				intePolynomial = new Sum(firstTemp, temp);
+			} else {
+	
+				intePolynomial = new Sum(intePolynomial, temp);
+			}
+			
+		}
+		
+		return intePolynomial;
+	}
+
+}
+
+package ss.week4.math;
+
+/**
+ * The class LinearProduct, which defines the product of a Function and a Constant.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class LinearProduct extends Product {
+
+	//------------------------Instance Variable-------------------------
+	private Function function; // Function that will be used;
+	private Constant constant; // Constant that will be used in function;
+	
+	//------------------------Constructor-------------------------------
+	/**
+	 * Create a LinearProduct with a given function and constant.
+	 * @param function1 - a Function object.
+	 * @param constant - a Constant object.
+	 */
+	//@ ensures this.function == function1 && this.constant == constant;
+	public LinearProduct(Function function1, Constant constant) {
+		super(function1, constant); 
+		// Uses the constructor of Product while specifying 
+		// that the second function is a Constant function object;
+		
+		this.function = function1;
+		this.constant = constant;
+		
+		assert this.function == function1 && this.constant == constant;
+	}
+	
+	/**
+	 * Return the derivative of the Product of two Function objects.
+	 * @return result - The function object containing the derivative.
+	 */
+	public Function derivative() {
+		// New LinearProduct object is created using the derivative of the 
+		// function as a parameter along with the constant;
+		// If f(x) = g(x) * constant ==> f'(x) = g'(x) * constant;
+		LinearProduct derivLinearProduct = new LinearProduct(this.function.derivative(), 
+						this.constant);
+		
+		return derivLinearProduct;
+	}
+	
+	/**
+	 * Returns the integrand of the LinearProduct function.
+	 * @return result - the integrand of the function.
+	 */
+	public Function integrand() {
+		
+		if (this.function instanceof Product) {
+			return null;
+		}
+		
+		Function inteLinearProduct = 
+						new LinearProduct(((Integrandable) this.function).integrand(), 
+						new Constant(this.constant.apply(0)));
+		
+		return inteLinearProduct;
+	}
+
+}
+
+package ss.week4.math;
+
+/**
+ * The class for Sum, which defines the sum of two Functions.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class Sum implements Function {
+
+	//-----------------Instance Variables----------------------
+	private Function func1; // One of the Functions to be used;
+	private Function func2; // One of the Functions to be used;
+	
+	//-----------------Constructor-----------------------------
+	/**
+	 * Create the Sum of two Functions.
+	 * @param func1 - a Function object to be used.
+	 * @param func2 - another Function object to be used.
+	 */
+	public Sum(Function function1, Function function2) {
+		
+		this.func1 = function1;
+		this.func2 = function2;
+	}
+	
+	//------------------Queries-----------------------
+	
+	/**
+	 * Return the Sum of two Functions.
+	 * @param arg - a value of type double.
+	 * @return result - the sum of the two Functions.
+	 */
+	public double apply(double arg) {
+		return func1.apply(arg) + func2.apply(arg); // The sum of the two Functions;
+	}
+	
+	/**
+	 * Return the derivative of the Sum of two Function objects.
+	 * @return result - The function object containing the derivative 
+	 * of the Sum.
+	 */
+	public Function derivative() {
+		// New Sum object using the derivatives of the two functions as parameters;
+		Sum derivSum = new Sum(this.func1.derivative(), this.func2.derivative());
+		
+		return derivSum;
+	}
+	
+	/**
+	 * Returns a string representation of the sum value.
+	 * @return - String representation of the sum value.
+	 */
+	public String toString() {
+		return "The sum is: " + this.apply(0);
+	}
+	
+	/**
+	 * Returns the integrand of the Sum function.
+	 * @return result - the integrand of the function.
+	 */
+	public Function integrand() {
+		
+		if (this.func1 instanceof Product || this.func2 instanceof Product) {
+			return null;
+		}
+		
+		Function inteSum = new Sum(((Integrandable) this.func1).integrand(), 
+						((Integrandable) this.func2).integrand());
+		
+		return inteSum;
+	}
+	
+}
+
+package ss.week4.math;
+
+/**
+ * The class for the Constant function.
+ * @author Joep Huijts
+ * @version Version 1.0
+ */
+public class Constant implements Function, Integrandable {
+
+	//-----------------------Instance Variables------------------
+	private double constant; // The constant value;
+	
+	//-------------------------Constructor------------------------
+	/**
+	 * Create a Constant.
+	 * @param number - input the number the new Constant will be.
+	 */
+	public Constant(double number) {
+		this.constant = number;
+	}
+	
+	/**
+	 * Returns the constant of type double.
+	 * @param arg - a parameter that is not used.
+	 * @return \result - the constant.
+	 */
+	/*@ pure*/ public double apply(double arg) { 
+		return this.constant;
+	}
+	
+	/**
+	 * Return the derivative of a Function object that is derivative 
+	 * of the current object.
+	 * @return result - The function object containing the derivative 
+	 * of the current object.
+	 */
+	//@ ensures newConstant(0).apply == 0;
+	public Function derivative() {
+		Function newConstant = new Constant(0); 
+		// Creating a new Function object with a constant of 0;
+		
+		assert newConstant.apply(0) == 0;
+		
+		return newConstant;
+	}
+	
+	/**
+	 * Returns a string representation of the constant.
+	 * @return - String representation of the constant.
+	 */
+	/*@ pure */ public String toString() {
+		return "The constant is " + this.apply(0);
+	}
+	
+	/**
+	 * Returns the integrand of the Constant function.
+	 * @return result - the integrand of the function.
+	 */
+	public Function integrand() {
+		Function inteConstant = new LinearProduct(new Exponent(1), new Constant(this.constant));
+		
+		return inteConstant;
+	}
+
+}
+
+package ss.week4.math;
+
+public class Exponent implements Function {
+
+
+	//---------------------Instance Variables--------------------
+	private int exponent; // The exponent integer used in the function;
+	
+	//-------------------------Constructor-----------------------
+	
+	/**
+	 * Create an Exponent function with a given exponent.
+	 * @param value - the integer that will become the exponent.
+	 */
+	public Exponent(int value) {
+		this.exponent = value;
+	}
+	
+	//----------------------Queries------------------------------
+	/**
+	 * Executes the function to an argument of type double.
+	 * @param arg - a value of type double that the Exponent is 
+	 * applied to.
+	 * @return \result - the value created after applying the Exponent.
+	 */
+	//@ ensures index == this.exponent;
+	public double apply(double arg) {
+		// Store arg in a local variable;
+		double result = arg;
+		if (this.exponent == 0) {
+			return 1;
+		} else {
+		
+			// An int index is created to track how much the double value multiplies itself;
+			int index = 1;
+		
+			// Use a while loop to multiply result with itself;
+			while (index < this.exponent) { 
+				// Condition checks whether result has multiplied itself this.exponent times;
+				result = result * result;
+			
+				index++; // Increment the index;
+			}
+			// Assert that the loop has run the correct amount of times;
+			assert index == this.exponent; 
+		}
+		return result;
+	}
+	
+	/**
+	 * Return the derivative of an Exponent object.
+	 * @return \result - The functional object containing the derivative 
+	 * of the current object.
+	 */
+	public Function derivative() {
+		// New LinearProduct object is created using the following formula:
+		// If f(x) = g(x) ^ (this.exponent) ==> 
+		//									f'(x) = (g(x) ^ (this.exponent - 1)) * this.exponent;
+		LinearProduct derivLinearProduct = new LinearProduct(new Exponent(this.exponent - 1), 
+						new Constant(this.exponent));
+		
+		return derivLinearProduct;
+	}
+	
+	
+	/**
+	 * Returns a string representation of the Exponent.
+	 * @return - String representation of the Exponent.
+	 */
+	public String toString() {
+		return "The exponent is: " + this.exponent;
+	}
+	
+	/**
+	 * Returns the integrand of the Exponent function.
+	 * @return result - the integrand of the function.
+	 */
+	public Function integrand() {
+		
+		
+		Function inteExponent = new LinearProduct(new Exponent(this.exponent + 1), 
+								new Constant(1 / (this.exponent + 1)));
+		
+		return inteExponent;
+	}
+
+}
+
+
+P-4.13)
+
+P-4.14)
+
+P-4.15)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

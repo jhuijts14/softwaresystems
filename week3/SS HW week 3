@@ -1,0 +1,994 @@
+P-3.1)
+
+package ss.week3;
+/**
+ * The class for the operation Addition with its identity.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class Addition implements OperatorWithIdentity {
+	
+	//---------------------INSTANCE VARIABLES----------------------
+	
+	
+	//----------------------Constructor------------------------------
+	/**
+	 * Create an Addition operation.
+	 */
+	public Addition() {
+		
+	}
+	
+	//--------------------------Queries-------------------------------
+
+	/**
+	 * Perform this operation, Addition.
+	 */
+	//@ ensures left + right == right + left;
+	public int operate(int left, int right) {
+		int result;
+		result = left + right;
+		
+		assert result == right + left;
+		
+		return result;
+	}
+	
+	/**
+	 * The identity for this operator. For any integer i,
+	 * this.operate(this.identity, i) == i
+	 * this.operate(i, this.identity) == i
+	 */
+	public int identity() {
+		return 0;
+	}
+	//---------------------------Commands--------------------------------
+
+	
+
+}
+
+package ss.week3;
+
+/**
+ * The class for the Multiplication identity operation.
+ * @author Joep Huijts
+ *@version Version 1.0
+ */
+public class Multiplication implements OperatorWithIdentity {
+
+	//---------------------------Queries---------------------------
+	 /**
+	 * Perform this operation using Multiplication.
+	 */
+	//@ ensures left * right == right * left;
+	public int operate(int left, int right) {
+		int result;
+		result = left * right;
+		
+		assert result == right * left;
+		
+		return result;
+	}
+	
+	/**
+	 * The identity for this operator. For any integer i,
+	 * this.operate(this.identity, i) == i
+	 * this.operate(i, this.identity) == i
+	 */
+	public int identity() {
+		return 1;
+	}
+	 
+}
+
+P-3.2)
+
+package ss.week3.pw;
+
+/**
+ * The interface of Checker.
+ * @author Joep Huijts
+ *@version Version 1.0
+ */
+public interface Checker {
+
+	/**
+	 * Returns true or false depending if the password is acceptable.
+	 * @param password - The input password to be checked to see if acceptable.
+	 * @return true || false if password acceptable.
+	 */
+	public boolean acceptable(String password);
+	
+}
+
+P-3.3)
+
+package ss.week3.pw;
+
+/**
+ * Class for the Basic Checker.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class BasicChecker implements Checker {
+	/**
+	 * Test if a given string is an acceptable password. 
+	 *  @param password - Word that will be tested 
+	 *  	   if it can be used as a password
+	 *  @return false if the suggestion has less
+	 *          than 6 characters or it contains a space.
+	 */
+	public boolean acceptable(String password) {
+		
+		
+		if (password.length() < 6 || password.contains(" ")) {
+			System.out.println("Input password is invalid!");
+			return false;
+		} else {
+			return true;
+		}
+		
+		
+	}
+}
+
+package ss.week3.pw;
+
+/**
+ * Class of a Strong Checker.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class StrongChecker extends BasicChecker {
+
+	/**
+	 * Test if a given string is an acceptable password. 
+	 *  @param password - Word that will be tested 
+	 *  	   if it can be used as a password
+	 *  @return false if the suggestion has less
+	 *          than 6 characters or it contains a space
+	 *          password starts with a letter and ends with
+	 *          a digit.
+	 */
+	public boolean acceptable(String password) {
+		
+		if (Character.isLetter(password.charAt(0)) 
+					&& Character.isDigit(password.charAt(password.length() - 1))) {
+			super.acceptable(password);
+			
+			return false;
+		} else {
+			return false;
+		}
+		
+		
+	}
+}
+
+P-3.4)
+
+package ss.week3.pw;
+
+/**
+ * Class for the Basic Checker.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class BasicChecker implements Checker {
+	/**
+	 * Test if a given string is an acceptable password. 
+	 *  @param password - Word that will be tested 
+	 *  	   if it can be used as a password
+	 *  @return false if the suggestion has less
+	 *          than 6 characters or it contains a space.
+	 */
+	public boolean acceptable(String password) {
+		
+		
+		
+		if (password.length() < 6 || password.contains(" ")) {
+			System.out.println("Input password is invalid!");
+			return false;
+		} else {
+			return true;
+		}	
+	}
+	
+	/**
+	 * Returns an acceptable password.
+	 * @return password - a password String that is acceptable.
+	 */
+	//@ ensures acceptable( password) == true;
+	public String generatePassword() {
+		String password;
+		password = "abcdef";
+		
+		assert acceptable(password);
+		
+		return password;
+	}
+	
+}
+
+package ss.week3.pw;
+
+/**
+ * Class of a Strong Checker.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class StrongChecker extends BasicChecker {
+
+	/**
+	 * Test if a given string is an acceptable password. 
+	 *  @param password - Word that will be tested 
+	 *  	   if it can be used as a password
+	 *  @return false if the suggestion has less
+	 *          than 6 characters or it contains a space
+	 *          password starts with a letter and ends with
+	 *          a digit.
+	 */
+	public boolean acceptable(String password) {
+		
+		if (Character.isLetter(password.charAt(0)) 
+						&& Character.isDigit(password.charAt(password.length() - 1))) {
+			super.acceptable(password);
+			
+			return false;
+		} else {
+			return false;
+		}
+		
+	}
+	
+	/**
+	 * Returns an acceptable password.
+	 * @return password - a password String that is acceptable.
+	 */
+	//@ ensures acceptable( password) == true;
+	public String generatePassword() {
+		String password;
+		password = "abcdef1";
+		
+		assert acceptable(password);
+		
+		return password;
+	}
+}
+
+P-3.5)
+
+package ss.week2.hotel;
+
+import ss.week3.pw.*;
+
+/**
+ * Class for Password.
+ * @author Joep Huijts
+ *@version Revision 1.0
+ */
+public class Password {
+
+	//------------------Instance Variables-------------------
+	
+	private String password;
+	private Checker checker;
+	private String factoryPassword;
+	
+	//------------------Constructor-------------------------
+	/**
+	 * Creates a <code>Password</code> with a checker and the 
+	 * initial password set to INITIAL.
+	 * @param checker - A checker to be used for a password;
+	 * 
+	 */
+	//@ ensures checker.acceptable(factoryPassword) == true;
+	public Password(Checker checker) {
+		this.checker = checker;
+		factoryPassword = this.checker.generatePassword();
+		password = factoryPassword;
+	}
+	
+	/**
+	 * Creates a Password using Password's other constructor.
+	 */
+	public Password() {
+		this(new BasicChecker());
+		
+	}
+	
+	//--------------------Queries--------------------------
+	
+	/**
+	 * Return the Checker.
+	 * @return checker - the checker for the password;
+	 */
+	/* pure */ public Checker getChecker() {
+		return checker;
+	}
+	
+	/**
+	 * Return the factory password string.
+	 * @return factoryPassword - the string of the factory password.
+	 */
+	/* pure */ public String getFactoryPassword() {
+		return factoryPassword;
+	}
+	//--------------------Commands--------------------------
+	/**
+	 * Test if a given string is an acceptable password. 
+	 *  @param suggestion - Word that will be tested 
+	 *  	   if it can be used as a password
+	 *  @return false if the suggestion has less
+	 *          than 6 characters or it contains a space.
+	 */
+	public boolean acceptable(String suggestion) {
+		if (suggestion.length() < 6 || suggestion.contains(" ")) {
+			System.out.println("Input password is invalid!");
+			return false;
+		} else {
+			return true;
+		}
+	
+	}
+	
+	/**
+	 * Tests if a given word is equal to the current password.
+	 * @param test - String that will be tested against the current
+	 *         password
+	 * @return true If test String is equal to the current password
+	 */
+	public boolean testWord(String test) {
+		if (this.password.equals(test)) {
+			return true;
+		}
+		System.out.println("Input does not match password");
+		return false;
+
+	}
+	
+	/**
+	 * Changes the current password to a new password.
+	 * @param oldpass - The String of the old password
+	 * @param newpass - The String of the new password
+	 * @return true if oldpass is equal to the current 
+	 *         password and that newpass is an acceptable 
+	 *         password
+	 */
+	//@ requires newpass.length() >= 6 && !(newpass.contains(" "));
+	public boolean setWord(String oldpass, String newpass) {
+		
+		assert newpass.length() >= 6 && !(newpass.contains(" ")) :
+			"newpass is not acceptable";
+		
+		if (testWord(oldpass) && acceptable(newpass)) {
+			this.password = newpass;
+			return true;
+		}
+		return false;
+	}
+	
+}
+
+
+P-3.6)
+
+package ss.week3.pw;
+
+import ss.week2.hotel.Password;
+
+/**
+ * The class of Timed Password.
+ * @author Joep Huijts
+ * @version Version 1.0
+ */
+public class TimedPassword extends Password {
+
+	//--------------------Instance Variable---------------------
+	private long validTime; // How long a password is valid.
+	private long expiredTime;
+	
+	
+	//-----------------------Constructor-------------------------
+	/**
+	 * Create a TimedPassword with a expiration time for a password.
+	 * @param expirTime - time till password expires.
+	 */
+	//@ requires expirTime >= 0;
+	public TimedPassword(int expirTime) {
+		super();
+		
+		
+		assert expirTime >= 0;
+		
+		expiredTime = expirTime * 1000;
+		validTime = System.currentTimeMillis() + expiredTime;
+	}
+	
+	/**
+	 * Create a TimedPassword.
+	 */
+	public TimedPassword() {
+		super();
+		
+		validTime = System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 160);
+	}
+	
+	//-----------------------Queries-----------------------------
+	
+	/**
+	 * Returns true or false depending if the password is expired or not.
+	 */
+	public boolean isExpired() {
+		
+		return this.validTime <= System.currentTimeMillis();
+	}
+	
+	//-----------------------Commands---------------------------------
+	/**
+	 * Changes the current password to a new password.
+	 * @param oldpass - The String of the old password
+	 * @param newpass - The String of the new password
+	 * @return true if oldpass is equal to the current 
+	 *         password and that newpass is an acceptable 
+	 *         password
+	 */
+	//@ requires newpass.length() >= 6 && !(newpass.contains(" "));
+	public boolean setWord(String oldpass, String newpass) {
+		
+		
+		boolean result = false;
+		
+		if (super.setWord(oldpass, newpass)) {
+			validTime = System.currentTimeMillis() + expiredTime;
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	
+}
+
+
+P-3.7)
+
+package ss.week3.pw;
+
+import ss.week3.hotel.Password;
+
+/**
+ * The class of Timed Password.
+ * @author Joep Huijts
+ * @version Version 1.0
+ */
+public class TimedPassword extends Password {
+
+	//--------------------Instance Variable---------------------
+	private long validTime; // How long a password is valid.
+	private long expiredTime;
+	
+	
+	//-----------------------Constructor-------------------------
+	/**
+	 * Create a TimedPassword with a expiration time for a password.
+	 * @param expirTime - time till password expires.
+	 */
+	//@ requires expirTime >= 0;
+	public TimedPassword(int expirTime) {
+		super();
+		
+		
+		assert expirTime >= 0;
+		
+		expiredTime = expirTime * 1000;
+		validTime = System.currentTimeMillis() + expiredTime;
+	}
+	
+	/**
+	 * Create a TimedPassword.
+	 */
+	public TimedPassword() {
+		super();
+		
+		validTime = System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 160);
+	}
+	
+	//-----------------------Queries-----------------------------
+	
+	/**
+	 * Returns true or false depending if the password is expired or not.
+	 */
+	public boolean isExpired() {
+		
+		return this.validTime <= System.currentTimeMillis();
+	}
+	
+	//-----------------------Commands---------------------------------
+	/**
+	 * Tests if a given word is equal to the current password.
+	 * @param test - String that will be tested against the current
+	 *         password
+	 * @return true If test String is equal to the current password and is not expired
+	 */
+	public boolean testWord(String test) {
+		
+		boolean result = false;
+		
+		if (super.testWord(test)) {
+			if (this.isExpired()) {
+				result = true;
+			} 
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Changes the current password to a new password.
+	 * @param oldpass - The String of the old password
+	 * @param newpass - The String of the new password
+	 * @return true if oldpass is equal to the current 
+	 *         password and that newpass is an acceptable 
+	 *         password
+	 */
+	//@ requires newpass.length() >= 6 && !(newpass.contains(" "));
+	public boolean setWord(String oldpass, String newpass) {
+		
+		
+		boolean result = false;
+		
+		if (super.setWord(oldpass, newpass)) {
+			validTime = System.currentTimeMillis() + expiredTime;
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	
+}
+
+P-3.8)
+
+package ss.week3;
+
+/**
+ * The class of Format.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class Format {
+
+	//-------------------Instance Variables-----------------------
+	// test variables;
+	private static String test0  = "Test";
+	private static String test1 = "Test1";
+	private static String test2 = "Test2";
+	private static double testa = 2.50D, testb = 1.00D, testc = -12.50D;
+	
+	//--------------------Constructor-----------------------
+	/**
+	 * Constructor to test Format.
+	 */
+	public Format() {
+		
+	}
+	//--------------------Commands---------------------------
+	/**
+	 * Print a line on Bill with the item and amount it costs.
+	 * @param text - text naming the item on the Bill.
+	 * @param amount - amount the item costs.
+	 */
+	/*@ pure */ public static String printLine(String text, double amount) {
+		
+		return String.format("%-10s %10.2f %n", text, amount);
+		
+	}
+	
+	/**
+	 * The main method tests the string format.
+	 */
+	public static void main(String[] args) {
+		
+		System.out.print(printLine(test0, testa));
+		System.out.printf(printLine(test1, testb));
+		System.out.format(printLine(test2, testc));
+	}
+}
+
+
+P-3.9)
+package ss.week3.hotel;
+
+/**
+ * The class for a Bill.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class Bill {
+
+	//-------------------Instance Variables------------------
+	private double sum;
+	
+	//------------------Nested Interface-------------------
+	/**
+	 * Nested interface of an Item. Abstraction of the items on the bill. 
+	 * Every item has an amount and description.
+	 */
+	static interface Item {
+		/**
+		 * Returns the amount.
+		 * @return the amount charged for the Item.
+		 */
+		double getAmount();
+		
+	}
+	
+	//---------------------Constructor------------------------
+	/**
+	 * Constructs a Bill sending the output to a given PrintStream. 
+	 * If the PrintStream is null there will be no output.
+	 * @param theOutStream - output stream; or null if you don't want output.
+	 */
+	public Bill(java.io.PrintStream theOutStream) {
+		
+	}
+	
+	//----------------------Queries------------------------------
+	/**
+	 * Returns the sum of the Bill.
+	 * @return the sum of the Bill
+	 */
+	public double getSum() {
+		return sum;
+	}
+	
+	//-----------------------------Commands------------------------
+	/**
+	 * Print the sum of the bill on the output stream.
+	 */
+	public void close() {
+		
+	}
+	
+	/**
+	 * Add an item to the Bill. If there is an output, 
+	 * the item will be printed on this output and the amount 
+	 * will be added to the sum of the Bill
+	 * @param item - the new item added to the Bill.
+	 */
+	public void newItem(Bill.Item item) {
+		
+	}
+}
+
+P-3.10)
+
+package ss.week3.hotel;
+
+/**
+ * The test class of the interface Bill.Item.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class TestItem implements Bill.Item {
+	
+	//-------------------------Instance Variable------------------
+	private double amount; // The amount charged for an item.
+	private String description; // Description of the item.
+	
+	//-------------------------Constructor------------------------
+	/**
+	 * Creates a TestItem with a description and price (amount).
+	 * @param text - the input description of the item.
+	 * @param amount - the price of the item.
+	 */
+	//@ ensures this.amount == amount;
+	public TestItem(String text, double amount) {
+		description = text;
+		this.amount = amount;
+		
+		assert this.amount == amount;
+	}
+
+	
+	
+	
+	//-------------------------Queries---------------------------
+	/**
+	 * Returns the amount.
+	 * @return amount - amount the Item costs.
+	 */
+	public double getAmount() {
+		return this.amount;
+	}
+	
+	/**
+	 * Returns the item description.
+	 * @return description - the description of the item.
+	 */
+	public String toString() {
+		return this.description;
+	}
+
+}
+
+P-3.11)
+
+package ss.week3.test;
+
+import ss.week3.hotel.*;
+import static org.junit.Assert.*;
+
+import java.io.PrintStream;
+import org.junit.Test;
+
+
+public class BillTest {
+
+	//------------------------Instance Variable----------------------
+	// The variables to complete a test.
+	private Bill bill;
+	private TestItem item;
+	private PrintStream stream;
+	private String description1 = "A book";
+	private String description2 = "A CD";
+	private String description3 = "A movie";
+	private double amount1 = 12.50D;
+	private double amount2 = 7.50D;
+	private double amount3 = 6.66D;
+	/**
+	 * Test the initial state of an instance of Bill.
+	 */
+	@Test
+	public void testInitialState() {
+		bill = new Bill(stream);
+		
+		assertNotNull("Stream is not null!", bill);
+	}
+	
+	/**
+	 * Test the newItem command of Bill when the output stream is not null.
+	 */
+	@Test
+	public void testAddNewItemWithStream() {
+		bill = new Bill(System.out);
+		item = new TestItem(description1, amount1);
+		bill.newItem(item);
+		
+		assertEquals("Check description of new Item added: ", "A book", item.toString());
+		assertEquals("Check amount of new Item added", 12.50, bill.getSum(), 0.5);
+	}
+	
+	/**
+	 * Test the newItem command of Bill when the output stream is null.
+	 */
+	@Test
+	public void testAddNewItemWithoutStream() {
+		bill = new Bill(stream);
+		item = new TestItem(description1, amount1);
+		bill.newItem(item);
+		
+		assertEquals("Test if null ", null == stream, true);
+	}
+	
+	/**
+	 * Test the close command of Bill.
+	 */
+	@Test
+	public void testclose() {
+		bill = new Bill(System.out);
+		item = new TestItem(description1, amount1);
+		bill.newItem(item);
+		item = new TestItem(description2, amount2);
+		bill.newItem(item);
+		item = new TestItem(description3, amount3);
+		bill.newItem(item);
+		bill.close();
+		assertEquals("The sum of three items: ", 26.66, bill.getSum(), 0);
+	}
+}
+
+P-3.12)
+
+package ss.week3.hotel;
+
+/**
+ * The class for a PricedSafe.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class PricedSafe extends Safe implements Bill.Item {
+
+	//---------------------------Instance Variables------------------------
+	private double price; // The amount charged for the PricedSafe.
+
+	//-----------------------------Constructor-------------------------------
+	/**
+	 * Create a PricedSafe with a specified Bill price.
+	 * @param price - the amount charged for a PricedSafe.
+	 */
+	//@ ensures this.price == price;
+	public PricedSafe(double price) {
+		super();
+		
+		this.price = price;
+		
+		assert this.price == price;
+	}
+	
+	//----------------------------Queries------------------------------------
+	/**
+	 * Return the price of the PricedSafe.
+	 * @return price - the amount charge for a PricedSafe.
+	 */
+	/*@ pure */ public double getAmount() {
+		return price;
+	}
+	
+	/**
+	 * Return a string that contains the price of a PricedSafe.
+	 * @return string with item price.
+	 */
+	public String toString() {
+		return "This price of the safe is " + this.price;
+	}
+}
+
+
+P-3.13)
+
+package ss.week3.hotel;
+
+/**
+ * The class for a PricedRoom.
+ * @author Joep Huijts
+ * @version Version 1.0
+ *
+ */
+public class PricedRoom extends Room implements Bill.Item {
+
+
+	//------------------------------Instance Variable---------------------------
+	private double price; // The amount the PricedRoom costs per day.
+	
+	//-------------------------------Constructor--------------------------------
+	
+	/**
+	 * Create a PricedRoom, need to input a number, room price and safe price.
+	 * @param no - the room number.
+	 * @param roomPrice - the price of the room.
+	 * @param safePrice - the price of the safe in the room.
+	 */
+	public PricedRoom(int no, double roomPrice, double safePrice) {
+		super(no, safePrice);
+		this.price = roomPrice;
+		
+	}
+	
+	//---------------------------------Queries-----------------------------------
+
+	/**
+	 * Return the price of the PricedSafe.
+	 * @return price - the amount charge for a PricedSafe.
+	 */
+	/*@ pure */ public double getAmount() {
+		return this.price;
+	}
+	
+	/**
+	 * Return a string that contains the price of using a PricedRoom per day.
+	 * @return string with item price.
+	 */
+	/*@ pure */ public String toString() {
+		return "This price per day of renting the room is " + this.price;
+	}
+}
+
+package ss.week3.hotel;
+
+/**
+ * Hotel room with number and possibly a guest.
+ * @author Arend Rensink
+ * @version $Revision: 1.2 $
+ */
+public class Room {
+    // ------------------ Instance variables ----------------
+
+    private int number;
+    private Guest guest;
+    private Safe safe;
+    private PricedSafe pricedSafe;
+
+    // ------------------ Constructor ------------------------
+
+    /**
+     * Creates a <code>Room</code> with the given number, without a guest.
+     */
+    public Room(int no) {
+    	number = no;
+    	safe = new Safe();
+    	guest = null;
+    }
+    
+    /**
+     * Creates a <code>Room</code> with the given number and price for its safe, without a guest.
+     */
+    public Room(int no, double safePrice) {
+    	number = no;
+    	pricedSafe = new PricedSafe(safePrice);
+    	guest = null;
+    }
+
+    // ------------------ Queries --------------------------
+
+    /**
+     * Returns the number of this <code>Room</code>.
+     */
+    public int getNumber() {
+    	return number;
+    }
+
+    /**
+     * Returns the current guest living in this <code>Room</code>.
+     * @return the guest of this <code>Room</code>;
+     *         <code>null</code> if this <code>Room</code> 
+     *         is not currently rented
+     */
+    public Guest getGuest() {
+    	return guest;
+    }
+    
+    /**
+     * Return the Safe located in the Room.
+     */
+    /* pure */  public Safe getSafe() {
+    	return safe;
+    }
+
+    // ------------------ Commands --------------------------
+
+    /**
+     * Assigns a <code>Guest</code> to this <code>Room</code>.
+     * @param g the next guest renting this <code>Room</code>;
+     *        if <code>null</code> is passed, this <code>Room</code>
+     *        is empty afterwards
+     */
+    public void setGuest(Guest g) {
+    	guest = g;
+    }
+    
+    /**
+	 * Presents <code>Room</code>'s state in a string.
+	 */
+	public String toString() {
+		return "Room Number: " + this.number;
+	}
+}
+
+P-3.14)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
