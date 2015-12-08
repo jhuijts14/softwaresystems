@@ -114,7 +114,7 @@ public class BoardTest {
          * xxo
          * oox
          * xxo
-         */
+         */ 
         board.setField(0, 0, Mark.XX);
         board.setField(0, 1, Mark.XX);
         board.setField(0, 2, Mark.OO);
@@ -176,6 +176,7 @@ public class BoardTest {
         assertTrue(board.hasDiagonal(Mark.XX));
         assertFalse(board.hasDiagonal(Mark.OO));
     }
+    
 
     @Test
     public void testIsWinner() {
@@ -204,7 +205,7 @@ public class BoardTest {
          * xxo
          * oox
          * xxo
-         */
+         */ 
         board.setField(0, 0, Mark.XX);
         board.setField(0, 1, Mark.XX);
         board.setField(0, 2, Mark.OO);

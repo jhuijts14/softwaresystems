@@ -6,7 +6,7 @@ public class LinkedList<Element> {
     private Node first;
 
     //@ ensures \result.size == 0;
-    public LinkedList () {
+    public LinkedList() {
         size = 0;
         first = null;
     }
@@ -17,20 +17,32 @@ public class LinkedList<Element> {
             newNode.next = first;
             first = newNode;
         } else {
-            Node p = getNode(index-1);
+            Node p = getNode(index - 1);
             newNode.next = p.next;
             p.next = newNode;
         }
         size = size + 1;
     }
-
+    
     //@ ensures this.size == \old(size) - 1;
     public void remove(Element element) {
-        // TODO: implement, see exercise P-4.18
+        Node before = findBefore(element);
+    	
+    	if (before != null) {
+    		before.next = before.next.next;
+    	}
+        size--;
     }
 
     public Node findBefore(Element element) {
-        // TODO: implement, see exercise P-4.18
+    	for (int i = 0; i < this.size() - 1; i++) {
+    		Node temp = getNode(i);
+    		if (temp.next.getElement().equals(element)) {
+    			return temp;
+    		}
+    	}
+    	
+    	return null;
     }
 
     //@ requires 0 <= index && index < this.size();

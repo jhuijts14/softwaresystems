@@ -118,7 +118,19 @@ public class Game {
      * the changed game situation is printed.
      */
     private void play() {
-        // TODO: implement, see P-4.20
+    	this.update();
+        
+        while (!board.gameOver()) {
+        	if (this.current % 2 == 0) {
+        		players[0].makeMove(board);
+        	} else {
+        		players[1].makeMove(board);
+        	}
+        	this.update();
+        	current++;
+        }
+        
+        this.printResult();
     }
 
     /**

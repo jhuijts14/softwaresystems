@@ -18,13 +18,43 @@ public class DoublyLinkedList<Element> {
     //@ ensures this.size == \old(size) + 1;
     //@ ensures this.getNode(index).equals(element);
     public void add(int index, Element element) {
-        // TODO: implement, see exercise P-4.17
+    	Node newNode = new Node(element);
+    	Node oldNode = getNode(index);
+    	if (this.size() == 0) {
+    		newNode.previous = head;
+    		newNode.next = head;
+    		head.next = newNode;
+    		head.previous = newNode;
+    		size++;
+    	} else {
+    		newNode.previous = getNode(index - 1);
+    		newNode.next = oldNode;
+    		oldNode.previous = newNode;
+    		getNode(index - 1).next = newNode;
+    		size++;
+    	}
     }
 
     //@ requires 0 <= index && index < this.size;
     //@ ensures this.size == \old(size) - 1;
     public void remove(int index) {
-        // TODO: implement, see exercise P-4.17
+        if (size == 1) {
+        	head.next = head;
+        	head.previous = head;
+        } else if (index == 0) {
+        	getNode(index + 1).previous = head;
+        	head.next = getNode(index + 1);
+        } else if (index == this.size()) {
+        	getNode(index - 1).next = head;
+        	head.next = getNode(index - 1);
+        } else {
+        	Node temp1 = getNode(index - 1);
+        	Node temp2 = getNode(index + 1);
+        	temp1.next = temp2;
+        	temp2.previous = temp1;
+        }
+        
+        size--;
     }
 
     //@ requires 0 <= index && index < this.size;
@@ -52,6 +82,7 @@ public class DoublyLinkedList<Element> {
     public int size() {
         return this.size;
     }
+    
     public class Node {
         public Node(Element element) {
             this.element = element;

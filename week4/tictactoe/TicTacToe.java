@@ -8,5 +8,17 @@ package ss.week4.tictactoe;
  * @version $Revision: 1.4 $
  */
 public class TicTacToe {
+	
+	/**
+	 * Play a Tic-Tac-Toe game after this method executes.
+	 */
     public static void main(String[] args) {
-        // TODO: implement, see P-4.21
+    	Player player1 = new HumanPlayer("Joep", Mark.OO);
+    	Player player2 = new HumanPlayer("Test", Mark.XX);
+    	
+    	Game game = new Game(player1, player2);
+    	game.start();
+       
+       
+    }
+}
