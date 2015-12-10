@@ -1,6 +1,6 @@
 package ss.week4;
 
-public class DoublyLinkedList<Element> {
+public class DoublyLinkedList<E> {
 
     private /*@ spec_public @*/ int size;
     private Node head;
@@ -17,7 +17,7 @@ public class DoublyLinkedList<Element> {
     //@ requires 0 <= index && index <= this.size;
     //@ ensures this.size == \old(size) + 1;
     //@ ensures this.getNode(index).equals(element);
-    public void add(int index, Element element) {
+    public void add(int index, E element) {
     	Node newNode = new Node(element);
     	Node oldNode = getNode(index);
     	if (this.size() == 0) {
@@ -58,7 +58,7 @@ public class DoublyLinkedList<Element> {
     }
 
     //@ requires 0 <= index && index < this.size;
-    /*@ pure */ public Element get(int index) {
+    /*@ pure */ public E get(int index) {
         Node p = getNode(index);
         return p.element;
     }
@@ -84,17 +84,17 @@ public class DoublyLinkedList<Element> {
     }
     
     public class Node {
-        public Node(Element element) {
+        public Node(E element) {
             this.element = element;
             this.next = null;
             this.previous = null;
         }
 
-        private Element element;
+        private E element;
         public Node next;
         public Node previous;
 
-        public Element getElement() {
+        public E getElement() {
             return element;
         }
     }

@@ -66,7 +66,7 @@ public class Exponent implements Function, Integrandable {
 	public Function integrand() {
 		
 		
-		Function inteExponent = new LinearProduct(new Constant(1 / (this.exponent + 1)), 
+		Function inteExponent = new LinearProduct(new Constant(1.0 / (this.exponent + 1)), 
 						new Exponent(this.exponent + 1));
 		
 		return inteExponent;

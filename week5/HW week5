@@ -1,0 +1,394 @@
+P-5.1)
+/**
+	 * Check if a Map is injective, or is one-to-one. It is injective if 
+	 * for every value of the Map there is one and only one key for that value.
+	 * @param map - Map with keys and values to be checked if one-to-one.
+	 * @return result - true if for all int i and j;  map.get(i) = map.get(j) 
+	 * only if i = j. If not false is returned.
+	 */
+	//@ ensures \result == (\forall int i,j ; map.get(i) == map.get(j) && i == j);
+	public static <K, V> boolean isOneOnOne(Map<K, V> map) {
+        boolean result = true;
+		
+		for (int i = 0; i <= map.size(); i++) {
+        	for (int j = map.size(); j >= 0; j--) {
+        		if (map.get(i) == (map.get(j)) && i != j) {
+        			result = false;
+        		}
+        	}
+        }
+        return result;
+    }
+    
+ P-5.2)
+ 
+ /**
+	 * Check if a Map is surjective within a certain range. It is surjective 
+	 * if for ever value in the range there is at least one key associated 
+	 * with that value.
+	 * @param map - Map with keys and values, to be checked if surjective 
+	 * within a given range.
+	 * @param range - a range of values that the Map's keys and values will be 
+	 * compared against.
+	 * @return result - true if forall int i, j; range[i] == map.get(j) else false.
+	 */
+	//@ ensures \result == (\forall int i ; range.contains(map.get(i)));
+    public static <K, V> 
+           boolean isSurjectiveOnRange(Map<K, V> map, Set<V> range) {
+    	boolean result = false;
+    	
+    	if (map.values().containsAll(range)) {
+    		return true;
+    	}
+		
+        return result;
+    }
+    
+P-5.3)
+
+P-5.4)
+
+P-5.5)
+package ss.week5;
+
+/**
+ * The interface Strategy, which defines how a 
+ * computer plays Tic-Tac_Toe.
+ * @author Joep Huijts
+ * @version 1.0
+ *
+ */
+public interface Strategy {
+
+	/**
+	 * Returns the Name of the Strategy.
+	 * @return String name of the Strategy.
+	 */
+	/*@ pure */ public String getName();
+	
+	/**
+	 * Returns a next legal move, given the Board the 
+	 * move is on and the Mark of the player.
+	 * @param b - the Board the move will be on.
+	 * @param m - the Mark of the player moking the move.
+	 * @return result - the integer input used by the player 
+	 * for their next move.
+	 */
+	public int determineMove(Board b, Mark m);
+}
+
+P-5.6)
+package ss.week5;
+
+import java.util.*;
+/**
+ * The class NaiveStrategy, which implements Strategy to 
+ * determine moves the computer player should make.
+ * @author Joep Huijts
+ * @version 1.0
+ *
+ */
+public class NaiveStrategy implements Strategy {
+
+	//--------------------Instance Variables---------------------
+	private String name; // Name of the strategy;
+	private Set<Integer> moves;
+	
+	//------------------------Constructor------------------------
+	
+	/**
+	 * Create a NaiveStrategy with the name "Naive".
+	 */
+	//@ ensures this.name == "Naive" && moves
+	public NaiveStrategy() {
+		this.name = "Naive";
+		moves = Collections.emptySet();
+		
+	}
+	
+	/**
+	 * Returns the Name of the Strategy.
+	 * @return String name of the Strategy.
+	 */
+	/*@ pure */ public String getName() {
+		return this.name;
+	}
+	
+	/**
+	 * Returns a next legal move, given the Board the 
+	 * move is on and the Mark of the player.
+	 * @param b - the Board the move will be on.
+	 * @param m - the Mark of the player making the move.
+	 * @return result - a random empty integer field from 
+	 * the set this.moves
+	 */
+	/*@ pure*/ public int determineMove(Board b, Mark m) {
+		
+		List<Integer> result = new ArrayList<Integer>();
+		result.addAll(moves);
+		
+		int randomIndex = (int) (Math.random() * moves.size());
+		
+		return result.get(randomIndex);
+		
+	}
+}
+
+P-5.7)
+
+package ss.week5;
+
+/**
+ * The class ComputerPlayer, that extends the class Player and 
+ * enables a computer player to play tic-tac-toe.
+ * @author Joep Huijts
+ * @version 1.0
+ *
+ */
+public class ComputerPlayer extends Player {
+
+	//---------------------Instance Variables-------------------------------
+	private Strategy strategy; // The computer players strategy;
+	
+	//----------------------Constructor------------------------------------
+	
+	/**
+	 * Create a ComputerPlayer with a given name, mark and strategy.
+	 * @param name - a String of the name of the ComputerPlayer.
+	 * @param mark - the mark that the ComputerPlayer will associated with.
+	 * @param strategy - the strategy the ComputerPlayer will play with.
+	 */
+	//@ requires name != null;
+	//@ requires mark == Mark.OO || mark == Mark.XX;
+	public ComputerPlayer(String name, Mark mark, Strategy strategy) {
+		super(strategy + "-" + mark.name(), mark);
+		this.strategy = strategy;
+	}
+	
+	/**
+	 * Create a ComputerPlayer with a given name, mark and its strategy set to the NaiveStrategy.
+	 * @param name - a String of the name of the ComputerPlayer.
+	 * @param mark - the mark that the ComputerPlayer will associated with.
+	 */
+	//@ requires name != null;
+	//@ requires mark == Mark.OO || mark == Mark.XX;
+	public ComputerPlayer(Mark mark) {
+		super("Naive-" + mark.name(), mark);
+		this.strategy = new NaiveStrategy();
+	}
+	
+	//----------------------------Queries--------------------------------------
+	/**
+	 * Returns an integer index for what move the ComputerPlayer should do next. 
+	 * Uses the ComputerPlayers current strategy to get that index.
+	 * @param board - the board that the ComputerPlayer is playing on.
+	 * @return \result - an integer index for the next move the ComputerPlayer should make.
+	 */
+	//@ requires board != null;
+	@Override
+	/*@ pure */ public int determineMove(Board board) {
+		
+		return this.strategy.determineMove(board, this.getMark());
+	}
+
+	
+	/**
+	 * Return the current strategy of the ComputerPlayer.
+	 * @return a String representation of the strategy.
+	 */
+	/*@ pure */ public String inspectStrategy() {
+		return this.getName() + "is using the " + this.strategy.getName() + " strategy.";
+	}
+	
+	//-----------------------------Commands---------------------------------------
+	
+	/**
+	 * Update the ComputerPlayer's strategy to another strategy.
+	 * @param other - other strategy that the ComputerPlayer's strategy will be switched to.
+	 */
+	public void updateStrategy(Strategy other) {
+		this.strategy = other;
+	}
+}
+
+P-5.8)
+
+package ss.week5;
+
+/**
+ * Executable class for the game Tic Tac Toe. The game can be played against the
+ * computer. Lab assignment Module 2
+ * 
+ * @author Theo Ruys
+ * @version $Revision: 1.4 $
+ */
+public class TicTacToe {
+	
+	/**
+	 * Play a Tic-Tac-Toe game after this method executes.
+	 * 
+	 * @param args - arrays of Strings containing to two players names.
+	 */
+    public static void main(String[] args) {
+    	Player[] players = new Player[2];
+   
+    	if (args[0].equals("-N")) {
+    		players[0] = new ComputerPlayer(Mark.XX);
+    	} else {
+    		players[0] = new HumanPlayer(args[0], Mark.XX);
+    	}
+
+    	if (args[1].equals("-N")) {
+    		players[1] = new ComputerPlayer(Mark.OO);
+    	} else {
+    		players[1] = new HumanPlayer(args[1], Mark.OO);
+
+    	}
+    	
+    	
+    	Game game = new Game(players[0], players[1]);
+    	game.start();
+       
+    }
+}
+
+P-5.9)
+
+package ss.week5;
+
+import java.util.*;
+
+public class SmartStrategy implements Strategy {
+	//--------------------Instance Variables---------------------
+	private String name; // Name of the strategy;
+	private Set<Integer> moves;
+
+	//------------------------Constructor------------------------
+
+	/**
+	 * Create a SmartStrategy with the name "Smart".
+	 */
+	//@ ensures this.name == "Smart" && moves.size() == 9;
+	public SmartStrategy() {
+		this.name = "Smart";
+		moves = new HashSet<Integer>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8));
+
+	}
+	
+	//------------------------------Queries-----------------------------------
+
+	/**
+	 * Returns the Name of the Strategy.
+	 * @return String name of the Strategy.
+	 */
+	/*@ pure */ public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * Returns a smart move, given the Board the 
+	 * move is on and the Mark of the player.
+	 * @param b - the Board the move will be on.
+	 * @param m - the Mark of the player making the move.
+	 * @return result - the index of the next move the 
+	 * ComputerPlayer will make.
+	 */
+	/*@ pure*/ public int determineMove(Board b, Mark m) {
+
+		// If the middle field is empty, the field is selected;
+		if (b.isEmptyField(4)) {
+			return 4;
+		}
+
+
+		// If there is a field that guarantees a direct win, this field is selected;
+		for (int i = 0; i < Board.DIM * Board.DIM; i++) {
+			Board copyB = b.deepCopy();
+			copyB.setField(i, m);
+
+			if (copyB.isWinner(m) && b.isEmptyField(i)) {
+				return i;
+			}
+		}
+
+		// If there is a field the opponent needs to win, this field is selected;
+		for (int i = 0; i < Board.DIM * Board.DIM; i++) {
+			Board copyB = b.deepCopy();
+			copyB.setField(i, m.other());
+
+			if (copyB.isWinner(m.other()) && b.isEmptyField(i)) {
+				return i;
+			}
+		}
+
+		// If none of the cases above applies, a random field is selected;
+		List<Integer> result = new ArrayList<Integer>();
+		result.addAll(moves);
+
+		int randomIndex = (int) (Math.random() * moves.size());
+
+		return result.get(randomIndex);
+
+	}
+}
+
+P-5.10)
+
+package ss.week5;
+
+/**
+ * Executable class for the game Tic Tac Toe. The game can be played against the
+ * computer. Lab assignment Module 2
+ * 
+ * @author Theo Ruys
+ * @version $Revision: 1.4 $
+ */
+public class TicTacToe {
+	
+	/**
+	 * Play a Tic-Tac-Toe game after this method executes.
+	 * 
+	 * @param args - arrays of Strings containing to two players names.
+	 */
+    public static void main(String[] args) {
+    	Player[] players = new Player[2];
+    	Mark[] playerMark = new Mark[] {Mark.XX, Mark.OO};
+   
+    	int index = 0;
+    	
+    	while (index < args.length) {
+    		if (args[index].equals("-N")) {
+    			players[index] = new ComputerPlayer(playerMark[index]);
+    		} else if (args[index].equals("-S")) {
+    			players[index] = new ComputerPlayer(playerMark[index], new SmartStrategy());
+    		} else {
+    			players[index] = new HumanPlayer(args[index], playerMark[index]);
+    		}
+    		
+    		index++;
+    	}
+    	
+    	Game game = new Game(players[0], players[1]);
+    	game.start();
+       
+    }
+}
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

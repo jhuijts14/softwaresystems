@@ -1,6 +1,6 @@
 package ss.week4;
 
-public class LinkedList<Element> {
+public class LinkedList<E> {
 
     private /*@ spec_public @*/ int size;
     private Node first;
@@ -11,7 +11,7 @@ public class LinkedList<Element> {
         first = null;
     }
 
-    public void add(int index, Element element) {
+    public void add(int index, E element) {
         Node newNode = new Node(element);
         if (index == 0) {
             newNode.next = first;
@@ -25,7 +25,7 @@ public class LinkedList<Element> {
     }
     
     //@ ensures this.size == \old(size) - 1;
-    public void remove(Element element) {
+    public void remove(E element) {
         Node before = findBefore(element);
     	
     	if (before != null) {
@@ -34,7 +34,7 @@ public class LinkedList<Element> {
         size--;
     }
 
-    public Node findBefore(Element element) {
+    public Node findBefore(E element) {
     	for (int i = 0; i < this.size() - 1; i++) {
     		Node temp = getNode(i);
     		if (temp.next.getElement().equals(element)) {
@@ -46,7 +46,7 @@ public class LinkedList<Element> {
     }
 
     //@ requires 0 <= index && index < this.size();
-    public Element get(int index) {
+    public E get(int index) {
         Node p = getNode(index);
         return p.element;
     }
@@ -68,15 +68,15 @@ public class LinkedList<Element> {
     }
 
     public class Node {
-        private Element element;
+        private E element;
         public Node next;
 
-        public Node(Element element) {
+        public Node(E element) {
             this.element = element;
             this.next = null;
         }
 
-        public Element getElement() {
+        public E getElement() {
             return element;
         }
     }

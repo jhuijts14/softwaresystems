@@ -9,8 +9,8 @@ package ss.week4.math;
 public class Product implements Function {
 	
 	//-----------------Instance Variables----------------------
-	private Function func1; // One of the Functions to be used;
-	private Function func2; // One of the Functions to be used;
+	protected Function func1; // One of the Functions to be used;
+	protected Function func2; // One of the Functions to be used;
 		
 	//-----------------Constructor-----------------------------
 	/**

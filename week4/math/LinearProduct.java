@@ -8,9 +8,6 @@ package ss.week4.math;
  */
 public class LinearProduct extends Product implements Integrandable {
 
-	//------------------------Instance Variable-------------------------
-	private Function function; // Function that will be used;
-	private Constant constant; // Constant that will be used in function;
 	
 	//------------------------Constructor-------------------------------
 	/**
@@ -24,10 +21,7 @@ public class LinearProduct extends Product implements Integrandable {
 		// Uses the constructor of Product while specifying 
 		// that the second function is a Constant function object;
 		
-		this.function = function1;
-		this.constant = constant;
 		
-		assert this.function == function1 && this.constant == constant;
 	}
 	
 	/**
@@ -38,8 +32,8 @@ public class LinearProduct extends Product implements Integrandable {
 		// New LinearProduct object is created using the derivative of the 
 		// function as a parameter along with the constant;
 		// If f(x) = g(x) * constant ==> f'(x) = g'(x) * constant;
-		LinearProduct derivLinearProduct = new LinearProduct(this.constant, 
-						this.function.derivative());
+		LinearProduct derivLinearProduct = new LinearProduct((Constant)this.func2, 
+						this.func1.derivative());
 		System.out.println("Function derivative got called with; " + derivLinearProduct);
 		return derivLinearProduct;
 	}
@@ -50,13 +44,13 @@ public class LinearProduct extends Product implements Integrandable {
 	 */
 	public Function integrand() {
 		
-		if (this.function instanceof Product) {
+		if (!(this.func1 instanceof Integrandable)) {
 			return null;
 		}
 		
 		Function inteLinearProduct = 
-						new LinearProduct(new Constant(this.constant.apply(0)), ((Integrandable) 
-							this.function).integrand());
+						new LinearProduct((Constant)(this.func2), ((Integrandable) 
+							this.func1).integrand());
 		
 		return inteLinearProduct;
 	}

@@ -61,7 +61,7 @@ public class Sum implements Function, Integrandable {
 	 */
 	public Function integrand() {
 		
-		if (this.func1 instanceof Product || this.func2 instanceof Product) {
+		if (!(this.func1 instanceof Integrandable && this.func2 instanceof Integrandable)) {
 			return null;
 		}
 		
