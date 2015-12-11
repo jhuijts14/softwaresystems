@@ -112,7 +112,7 @@ public class MapUtil {
 	 * Return a boolean based on whether two maps are compatitble.
 	 * @param f - a map with generic types K, V.
 	 * @param g - a map with generic types V, W.
-	 * @return \result == (
+	 * @return \result == (\forall values v in map f : !(g.containsKey(v))
 	 */
 	/*@ pure */ public static <K, V, W> boolean compatible(Map<K, V> f, Map<V, W> g) {
 
