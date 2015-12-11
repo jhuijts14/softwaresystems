@@ -60,25 +60,25 @@ public class MapUtil {
 	 * made up of the values from the original Map, along 
 	 * with a set containing the keys of those values.
 	 */
-	//@ ensures \result == (\forall int i ; map.values().containsAll(range));
+	//@ ensures\result instanceof Map<V, Set<K>>;
     public static <K, V> Map<V, Set<K>> inverse(Map<K, V> map) {
         Map<V, Set<K>> result = new HashMap<V, Set<K>>();
 
-        	for (K key : map.keySet()) {
-        		Set<K> tmp = new HashSet<K>();
-        		for (K key1 : map.keySet()) {
-        			if (map.get(key).equals(map.get(key1))) {
-        				tmp.add(key1);
-        				
-        				System.out.println("Key got added " + key1);
-        			}
-        			System.out.println("Key loop " + key1);
-        			
+        for (K key : map.keySet()) {
+        	Set<K> tmp = new HashSet<K>();
+        	for (K key1 : map.keySet()) {
+        		if (map.get(key).equals(map.get(key1)))  {
+        			tmp.add(key1);
+
+        			System.out.println("Key got added " + key1);
         		}
-        		System.out.println("Key loop " + key);
-        		result.put(map.get(key), tmp);
+        		System.out.println("Key loop " + key1);
 
         	}
+        	System.out.println("Key loop " + key);
+        	result.put(map.get(key), tmp);
+
+        }
 
         
         
@@ -95,7 +95,7 @@ public class MapUtil {
    	 */
     //@ requires MapUtil.isOneonOne(map) && 
     // MapUtil.isSurjectiveOnRange(map, (Set<Integer>) map.values());
-    //@ ensures /result instanceof Map<V, K>;
+    //@ ensures \result instanceof Map<V, K>;
 	public static <K, V> Map<V, K> inverseBijection(Map<K, V> map) {
         Map<V, K> result = new HashMap<V, K>();
        
@@ -107,12 +107,44 @@ public class MapUtil {
 
         return result;
 	}
-	public static <K, V, W> boolean compatible(Map<K, V> f, Map<V, W> g) {
-        // TODO: implement, see exercise P-5.4
-        return false;
+	
+	/**
+	 * Return a boolean based on whether two maps are compatitble.
+	 * @param f - a map with generic types K, V.
+	 * @param g - a map with generic types V, W.
+	 * @return \result == (
+	 */
+	/*@ pure */ public static <K, V, W> boolean compatible(Map<K, V> f, Map<V, W> g) {
+
+		System.out.println("Test");
+		System.out.println(f.values());
+		System.out.println(g.values());
+		
+		for (V v : f.values()) {
+			if (!g.containsKey(v)) {
+				return false;
+			}
+		}
+        return true;
 	}
+	
+	/**
+	 * Returns a map which is the composition of maps f and g.
+	 * @param f - a map with generic types K, V.
+	 * @param g - a map with generic types V, W.
+	 * @return \result - a map of types K, W which is the composition of f and g. 
+	 */
 	public static <K, V, W> Map<K, W> compose(Map<K, V> f, Map<V, W> g) {
-        // TODO: implement, see exercise P-5.5
-        return null;
+		Map<K, W> result = new HashMap<K, W>();
+		if (MapUtil.compatible(f, g)) {
+
+			for (K key : f.keySet()) {
+				V gKey = f.get(key);
+
+				result.put(key, g.get(gKey));
+
+			}
+		}
+		return result;
 	}
 }
