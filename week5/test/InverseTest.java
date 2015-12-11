@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class InverseTest {
-
     @Test
     public void testEmptyMap() {
         Map<Integer, Integer> f1 = new HashMap<Integer, Integer>();

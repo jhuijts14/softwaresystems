@@ -1,7 +1,10 @@
 package ss.week5;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -60,18 +63,49 @@ public class MapUtil {
 	//@ ensures \result == (\forall int i ; map.values().containsAll(range));
     public static <K, V> Map<V, Set<K>> inverse(Map<K, V> map) {
         Map<V, Set<K>> result = new HashMap<V, Set<K>>();
+
+        	for (K key : map.keySet()) {
+        		Set<K> tmp = new HashSet<K>();
+        		for (K key1 : map.keySet()) {
+        			if (map.get(key).equals(map.get(key1))) {
+        				tmp.add(key1);
+        				
+        				System.out.println("Key got added " + key1);
+        			}
+        			System.out.println("Key loop " + key1);
+        			
+        		}
+        		System.out.println("Key loop " + key);
+        		result.put(map.get(key), tmp);
+
+        	}
+
         
-        Set<K> temp1 = map.keySet();
-        V temp2 = map.get(temp1);
         
         
         return result;
 	}
     
-    
+    /**
+   	 * Return the inverse of a Map.
+   	 * @param map - Map with keys and values, to be inverted
+   	 * @return result - the inverse of the Map which is a Map 
+   	 * made up of the values from the original Map, along 
+   	 * with a set containing the keys of those values.
+   	 */
+    //@ requires MapUtil.isOneonOne(map) && 
+    // MapUtil.isSurjectiveOnRange(map, (Set<Integer>) map.values());
+    //@ ensures /result instanceof Map<V, K>;
 	public static <K, V> Map<V, K> inverseBijection(Map<K, V> map) {
-        // TODO: implement, see exercise P-5.3
-        return null;
+        Map<V, K> result = new HashMap<V, K>();
+       
+        
+        for (K key : map.keySet()) {
+        	result.put(map.get(key), key);
+        	
+        }
+
+        return result;
 	}
 	public static <K, V, W> boolean compatible(Map<K, V> f, Map<V, W> g) {
         // TODO: implement, see exercise P-5.4
