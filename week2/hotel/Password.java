@@ -14,6 +14,7 @@ public class Password {
 	private String password;
 	private Checker checker;
 	private String factoryPassword;
+	public static String iNITIAL = "abcdefgh";
 	
 	//------------------Constructor-------------------------
 	/**

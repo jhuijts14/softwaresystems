@@ -1,10 +1,8 @@
 package ss.week5;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,9 +19,9 @@ public class MapUtil {
 	public static <K, V> boolean isOneOnOne(Map<K, V> map) {
         boolean result = true;
 		
-		for (int i = 0; i <= map.size(); i++) {
-        	for (int j = map.size(); j >= 0; j--) {
-        		if (map.get(i) == (map.get(j)) && i != j) {
+        for (K key : map.keySet()) {
+        	for (K key1 : map.keySet()) {
+        		if (map.get(key).equals(map.get(key1)) && key != key1) {
         			result = false;
         		}
         	}

@@ -13,8 +13,7 @@ public class Employee {
 	public double pay() {
 		if (workHours <= 40) {
 			return workHours * payRate;
-		}
-		else {
+		} else {
 			return (40 * payRate) + (((workHours - 40) * 1.5) * payRate);
 		}
 	}

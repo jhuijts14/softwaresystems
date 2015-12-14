@@ -28,8 +28,8 @@ public class Hotel {
 		
 		this.name = name;
 		checkInPass = new Password();
-		room1 = new Room(101, Password.INITIAL);
-		room2 = new Room(102, Password.INITIAL);
+		room1 = new Room(101, "abcdefgh");
+		room2 = new Room(102, "abcdefgh");
 		
 		assert this.name == name;
 	}

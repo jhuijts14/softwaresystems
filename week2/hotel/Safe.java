@@ -25,7 +25,7 @@ public class Safe {
 			 "Input password is invalid!";
 		
 		this.pass = new Password();
-		this.pass.setWord(Password.INITIAL, newPass);
+		this.pass.setWord(this.getPassword(), newPass);
 		this.isActive = true;
 		this.isOpen   = true;
 		
@@ -52,7 +52,7 @@ public class Safe {
 	 * Return the password object to be used.
 	 */
 	/* pure */ public String getPassword() {
-		return this.pass.password;
+		return this.pass.getFactoryPassword();
 	}
 	
 	//----------------------------Commands--------------------------

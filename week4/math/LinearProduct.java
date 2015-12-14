@@ -32,7 +32,7 @@ public class LinearProduct extends Product implements Integrandable {
 		// New LinearProduct object is created using the derivative of the 
 		// function as a parameter along with the constant;
 		// If f(x) = g(x) * constant ==> f'(x) = g'(x) * constant;
-		LinearProduct derivLinearProduct = new LinearProduct((Constant)this.func2, 
+		LinearProduct derivLinearProduct = new LinearProduct((Constant) this.func2, 
 						this.func1.derivative());
 		System.out.println("Function derivative got called with; " + derivLinearProduct);
 		return derivLinearProduct;
@@ -49,7 +49,7 @@ public class LinearProduct extends Product implements Integrandable {
 		}
 		
 		Function inteLinearProduct = 
-						new LinearProduct((Constant)(this.func2), ((Integrandable) 
+						new LinearProduct((Constant) (this.func2), ((Integrandable) 
 							this.func1).integrand());
 		
 		return inteLinearProduct;

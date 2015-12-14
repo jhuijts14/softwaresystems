@@ -2,7 +2,6 @@ package ss.week4.test;
 
 import org.junit.Before;
 import org.junit.Test;
-import ss.week4.math.Constant;
 import ss.week4.math.Function;
 import ss.week4.math.Polynomial;
 

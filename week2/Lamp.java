@@ -30,7 +30,8 @@ public class Lamp {
 	 */
 	//@ ensures setting == OFF || setting == LOW || setting == MEDIUM || setting == HIGH;
 	/* pure */ public Setting getSetting() {
-		assert setting == Setting.OFF || setting == Setting.LOW || setting == Setting.MEDIUM || setting == Setting.HIGH :
+		assert setting == Setting.OFF || setting == Setting.LOW || setting == Setting.MEDIUM 
+						|| setting == Setting.HIGH :
 			"Lamp setting is invalid!";
 		return setting;
 	}

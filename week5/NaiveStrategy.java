@@ -22,7 +22,7 @@ public class NaiveStrategy implements Strategy {
 	//@ ensures this.name == "Naive";
 	public NaiveStrategy() {
 		this.name = "Naive";
-		moves = Collections.emptySet();
+		moves = new HashSet<Integer>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8));
 		
 	}
 	
@@ -44,12 +44,19 @@ public class NaiveStrategy implements Strategy {
 	 */
 	/*@ pure*/ public int determineMove(Board b, Mark m) {
 		
-		List<Integer> result = new ArrayList<Integer>();
-		result.addAll(moves);
+		List<Integer> temp = new ArrayList<Integer>();
+		temp.addAll(moves);
 		
 		int randomIndex = (int) (Math.random() * moves.size());
 		
-		return result.get(randomIndex);
+		int result = temp.get(randomIndex);
+		
+		while (!b.isEmptyField(result)) {
+			
+			randomIndex = (int) (Math.random() * moves.size());
+			result = temp.get(randomIndex);
+		}
+		return result;
 		
 	}
 }

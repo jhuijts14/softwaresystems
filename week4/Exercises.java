@@ -62,7 +62,7 @@ public class Exercises {
     }
 
     class SimpleList {
-        public class Element {}
+        public class Element { }
 
         public class Node {
             public Node next;

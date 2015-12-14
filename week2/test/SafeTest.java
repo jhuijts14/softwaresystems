@@ -1,7 +1,6 @@
 package ss.week2.test;
 
 import ss.week2.hotel.*;
-import ss.week3.hotel.Password;
 
 import static org.junit.Assert.*;
 
@@ -14,7 +13,7 @@ public class SafeTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		safe = new Safe(Password.INITIAL);
+		safe = new Safe("abcdefgh");
 	}
 
 	@Test

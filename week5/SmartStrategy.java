@@ -66,12 +66,18 @@ public class SmartStrategy implements Strategy {
 		}
 
 		// If none of the cases above applies, a random field is selected;
-		List<Integer> result = new ArrayList<Integer>();
-		result.addAll(moves);
+		List<Integer> temp = new ArrayList<Integer>();
+		temp.addAll(moves);
 
 		int randomIndex = (int) (Math.random() * moves.size());
+		int result = temp.get(randomIndex);
 
-		return result.get(randomIndex);
+		while (!b.isEmptyField(result)) {
+
+			randomIndex = (int) (Math.random() * moves.size());
+			result = temp.get(randomIndex);
+		}
+		return result;
 
 	}
 }

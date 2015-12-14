@@ -13,12 +13,8 @@ public class Homework {
 	private static Constant constant2 = new Constant(2.00);
 	private static Sum sum1;
 	private static Exponent exponent1 = new Exponent(4);
-	private static Product product1;
 	private static LinearProduct linearProduct1;
-	private static Polynomial polynomial1;
-	private static Function f1, f2, f3, f4;
-	
-	private static final double[] ARRAY = new double[]{0, 1, 2};
+	private static Function f1, f2, f3;
 	
 	//--------------------------Method-------------------------
 	

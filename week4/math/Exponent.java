@@ -40,9 +40,9 @@ public class Exponent implements Function, Integrandable {
 		
 			// New LinearProduct object is created using the following formula:
 			// If f(x) = g(x) ^ (this.exponent) ==> 
-			//									f'(x) = (g(x) ^ (this.exponent - 1)) * this.exponent;
+			//							f'(x) = (g(x) ^ (this.exponent - 1)) * this.exponent;
 			LinearProduct derivLinearProduct = new LinearProduct(new Constant(this.exponent), 
-					new Exponent(this.exponent - 1));
+							new Exponent(this.exponent - 1));
 
 			return derivLinearProduct;
 		}

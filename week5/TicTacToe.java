@@ -11,14 +11,18 @@ public class TicTacToe {
 	
 	/**
 	 * Play a Tic-Tac-Toe game after this method executes.
-	 * 
 	 * @param args - arrays of Strings containing to two players names.
 	 */
+	//@ requires args.length == 2;
     public static void main(String[] args) {
     	Player[] players = new Player[2];
     	Mark[] playerMark = new Mark[] {Mark.XX, Mark.OO};
    
     	int index = 0;
+    	if (args.length < 2) {
+    		System.out.println("Need to enter 2 player's names, only one given!");
+    		System.exit(0);
+    	}
     	
     	while (index < args.length) {
     		if (args[index].equals("-N")) {
