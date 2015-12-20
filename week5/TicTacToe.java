@@ -21,7 +21,7 @@ public class TicTacToe {
     	int index = 0;
     	if (args.length < 2) {
     		System.out.println("Need to enter 2 player's names, only one given!");
-    		System.exit(0);
+    		System.exit(-1);
     	}
     	
     	while (index < args.length) {

@@ -7,15 +7,15 @@ import java.util.Scanner;
 
 import ss.week6.voteMachine.PartyList;
 import ss.week6.voteMachine.VoteList;
-import ss.week6.voteMachine.VoteMachine;
+import ss.week6.voteMachine.VoteMachineController;
 import ss.week6.voteMachine.VoteView;
 
 public class VoteGUIView implements VoteView {
-	private VoteMachine voteMachine;
+	private VoteMachineController voteMachine;
 	private VoteFrame voteFrame;
 	private ResultJFrame uitslagJFrame;
 
-	public VoteGUIView(VoteMachine machine) {
+	public VoteGUIView(VoteMachineController machine) {
 		this.voteMachine = machine;
 	}
 
@@ -46,7 +46,7 @@ public class VoteGUIView implements VoteView {
 		}
 	}
 
-	public VoteMachine getVoteMachine() {
+	public VoteMachineController getVoteMachine() {
 		return this.voteMachine;
 	}
 

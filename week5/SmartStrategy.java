@@ -40,6 +40,7 @@ public class SmartStrategy implements Strategy {
 	/*@ pure*/ public int determineMove(Board b, Mark m) {
 
 		// If the middle field is empty, the field is selected;
+		
 		if (b.isEmptyField(4)) {
 			return 4;
 		}
@@ -67,16 +68,17 @@ public class SmartStrategy implements Strategy {
 
 		// If none of the cases above applies, a random field is selected;
 		List<Integer> temp = new ArrayList<Integer>();
-		temp.addAll(moves);
+
+		for (int i = 0; i < (Board.DIM * Board.DIM); i++) {
+			if (b.isEmptyField(i)) {
+				temp.add(i);
+			}
+		}
 
 		int randomIndex = (int) (Math.random() * moves.size());
+
 		int result = temp.get(randomIndex);
 
-		while (!b.isEmptyField(result)) {
-
-			randomIndex = (int) (Math.random() * moves.size());
-			result = temp.get(randomIndex);
-		}
 		return result;
 
 	}

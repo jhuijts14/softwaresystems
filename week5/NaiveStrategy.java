@@ -45,17 +45,18 @@ public class NaiveStrategy implements Strategy {
 	/*@ pure*/ public int determineMove(Board b, Mark m) {
 		
 		List<Integer> temp = new ArrayList<Integer>();
-		temp.addAll(moves);
+		
+		for (int i = 0; i < (Board.DIM * Board.DIM); i++) {
+			if (b.isEmptyField(i)) {
+				temp.add(i);
+			}
+		}
 		
 		int randomIndex = (int) (Math.random() * moves.size());
 		
 		int result = temp.get(randomIndex);
 		
-		while (!b.isEmptyField(result)) {
-			
-			randomIndex = (int) (Math.random() * moves.size());
-			result = temp.get(randomIndex);
-		}
+		
 		return result;
 		
 	}

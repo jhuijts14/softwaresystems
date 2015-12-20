@@ -1,7 +1,20 @@
 package ss.week6.cards;
 
-public class Card
-{
+import java.io.BufferedReader;
+import java.io.Serializable;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.EOFException;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+
+public class Card implements java.io.Serializable {
 
 	// ---- constants -----------------------------------
 
@@ -320,4 +333,127 @@ public class Card
 	public boolean isInRankBefore(Card card) {
 		return isRankFollowing(this.getRank(), card.getRank());
 	}
+	
+	/**
+	 * Write a description of the Card to a PrintWriter object.
+	 * @param output - A PrintWriter object that the discription of the Card object.
+	 * @return \result - a description string of the Card object is written to a PrintWriter.
+	 */
+	//@ requires output != null;
+	public void write(PrintWriter output) {
+		
+		output.write(this.toString());
+		output.println();
+		output.flush();
+	}
+	
+	
+	/**
+	 * Read a BufferedReader object and return a Card instance on the basis of input.
+	 * @param in - a BufferedReader object that is used to create a Card instance
+	 * @return \result - a Card object or null if a card object cannot be made. 
+	 */
+	public static Card read(BufferedReader in) throws EOFException {
+
+		Scanner input = new Scanner(in);
+		Card createdCard = null;
+
+		char cardSuit = suitString2Char(input.next());
+		char cardRank = rankString2Char(input.next());
+
+		
+		if (isValidRank(cardRank) && isValidSuit(cardSuit)) {
+			createdCard = new Card(cardSuit, cardRank);
+		}
+
+		
+		input.close();
+		return createdCard;
+	}
+	
+	
+	/**
+	 * Write a description of the Card to a DataOutput object.
+	 * @param output - A DataOutput object that the description of the Card object is writen to.
+	 * @return \result - a description string of the Card object is written to a PrintWriter.
+	 */
+	//@ requires out != null;
+	public void write(DataOutput out) throws IOException {
+		
+		out.writeChar(this.getSuit());
+		out.writeChar(this.getRank());
+	}
+	
+	
+	/**
+	 * Read a DataInput object and return a Card instance on the basis of input.
+	 * @param in - a DataInput object that is used to create a Card instance
+	 * @return \result - a Card object or null if a card object cannot be made. 
+	 * @throws IOException 
+	 */
+	public static Card read(DataInput in) throws IOException {
+
+		
+		Card createdCard = null;
+
+		char cardSuit = in.readChar();
+		char cardRank = in.readChar();
+
+		if (isValidRank(cardRank) && isValidSuit(cardSuit)) {
+			createdCard = new Card(cardSuit, cardRank);
+		}
+		
+		
+		return createdCard;
+	}
+	
+	/**
+	 * Write a description of the Card to a ObjectOutput object.
+	 * @param output - A ObjectOutput object that the description of the Card object is writen to.
+	 * @return \result - a description string of the Card object is written to a PrintWriter.
+	 */
+	//@ requires out != null;
+	public void write(ObjectOutput out) throws IOException {
+		
+		out.writeObject(this);
+	}
+	
+	
+	/**
+	 * Read a DataInput object and return a Card instance on the basis of input.
+	 * @param in - a ObjectInput object that is used to create a Card instance
+	 * @return \result - a Card object or null if a card object cannot be made. 
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
+	 */
+	public static Card read(ObjectInput in) throws IOException {
+
+		Card card;
+		try {
+			card = (Card) in.readObject();
+			return card;
+		} catch (ClassNotFoundException e) {
+			return null;		}
+		
+	}
+	
+	/** 
+	 * Test the write method.
+	 * @param args - the output stream object the write method should write to.
+	 * @throws FileNotFoundException 
+	 */
+	public static void main(String[] args) throws FileNotFoundException {
+		PrintWriter output = new PrintWriter(new FileOutputStream(args[0]));
+		
+		Card card1 = new Card(DIAMONDS, ACE);
+		card1.write(output);
+		Card card2 = new Card(DIAMONDS, KING);
+		card2.write(output);
+		Card card3 = new Card(DIAMONDS, JACK);
+		card3.write(output);
+		
+	}
+	
+	
 }
+

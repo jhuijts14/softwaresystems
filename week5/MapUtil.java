@@ -15,7 +15,8 @@ public class MapUtil {
 	 * @return result - true if for all int i and j;  map.get(i) = map.get(j) 
 	 * only if i = j. If not false is returned.
 	 */
-	//@ ensures \result == (\forall int i, j ; map.get(i) == map.get(j) && i == j);
+	//@ ensures \result == (\forall K key, key1 ; map.containsKey(key) && map.containsKey(key1) 
+	// && key != key1 : !map.get(key).equals(map.get(key1));
 	public static <K, V> boolean isOneOnOne(Map<K, V> map) {
         boolean result = true;
 		
