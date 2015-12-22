@@ -21,16 +21,12 @@ public class DictionaryAttackTest {
     private DictionaryAttack dictionaryAttack;
 
     /** Path to the text file */
-    private static final String PATH = ""; //Your path to the test folder
+    private static final String PATH = "/Users/joep/Documents/Twente/SoftwareSystems/eclipse/workspace/SS/src/ss/week6/test/"; //Your path to the test folder
 
     @Before
     public void setUp() {
         dictionaryAttack = new DictionaryAttack();
-        try {
-            dictionaryAttack.readPasswords(PATH + "LeakedPasswords.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dictionaryAttack.readPasswords("/Users/joep/Documents/Twente/SoftwareSystems/eclipse/workspace/SS/src/ss/week6/test/LeakedPasswords.txt");
     }
 
     /**
@@ -49,4 +45,12 @@ public class DictionaryAttackTest {
         assertTrue(dictionaryAttack.checkPassword("katrine", "spongebob"));
     }
 
+    /**
+     * Test for addToHashDictionary method.
+     */
+    @Test
+    public void testAddToHashDictionary() {
+    	dictionaryAttack.addToHashDictionary("/Users/joep/Documents/Twente/SoftwareSystems/eclipse/workspace/SS/src/ss/week6/dictionaryattack/password_dictionary.txt");
+    	
+    }
 }

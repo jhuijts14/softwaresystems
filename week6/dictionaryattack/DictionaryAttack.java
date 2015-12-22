@@ -1,6 +1,15 @@
 package ss.week6.dictionaryattack;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
+
+import org.apache.commons.codec.binary.Hex;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 public class DictionaryAttack {
@@ -12,12 +21,31 @@ public class DictionaryAttack {
 	 * username: encodedpassword
 	 * 
 	 * After calling this method, the passwordMap class variable should be
-	 * filled withthe content of the file. The key for the map should be
+	 * filled with the content of the file. The key for the map should be
 	 * the username, and the password hash should be the content.
 	 * @param filename
+	 * @throws FileNotFoundException  - if the file with the input filename isn't found.
 	 */
 	public void readPasswords(String filename) {
-		// To implement        
+		Scanner in;
+		try {
+			in = new Scanner(new FileReader(filename));
+			
+			passwordMap = new HashMap<String, String>();
+		
+			while (in.hasNextLine()) {
+				String[] temp = in.nextLine().split(": ");
+
+				passwordMap.put(temp[0], temp[1]);
+			}
+
+			in.close();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
@@ -27,8 +55,24 @@ public class DictionaryAttack {
 	 * @return
 	 */
 	public String getPasswordHash(String password) {
-    		// To implement
-    		return null;
+    	byte[] passwordBytes = password.getBytes();
+    	byte[] passwordMD5;
+    	String passwordHex;
+		MessageDigest md;
+		
+		try {
+			md = MessageDigest.getInstance("MD5", new sun.security.provider.Sun());
+			passwordMD5 = md.digest(passwordBytes);
+			passwordHex = Hex.encodeHexString(passwordMD5);
+			return passwordHex;
+		
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+    		
 	}
 	/**
 	 * Checks the password for the user the password list. If the user
@@ -38,7 +82,10 @@ public class DictionaryAttack {
 	 * @return whether the password for that user was correct.
 	 */
 	public boolean checkPassword(String user, String password) {
-        // To implement
+        if (passwordMap.get(user).equals(getPasswordHash(password))) {
+        	return true;
+        } 
+        
 		return false;
 	}
 
@@ -48,15 +95,45 @@ public class DictionaryAttack {
      * the original password.
 	 * @param filename filename of the dictionary.
 	 */
-    	public void addToHashDictionary(String filename) {
-        // To implement        
+    public void addToHashDictionary(String filename) {
+        Scanner in;
+		try {
+			in = new Scanner(new FileReader(filename));
+			
+			hashDictionary = new HashMap<String, String>();
+	        
+	        while (in.hasNextLine()) {
+	        	String origPassword = in.nextLine();
+	        	
+	        	hashDictionary.put(getPasswordHash(origPassword), origPassword);
+	        }
+	        
+	        in.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
     }
 	/**
 	 * Do the dictionary attack.
+	 * @throws FileNotFoundException 
 	 */
 	public void doDictionaryAttack() {
-		// To implement
+		readPasswords("/Users/joep/Documents/Twente/SoftwareSystems/eclipse/workspace/SS/src/ss/week6/test/LeakedPasswords.txt");
+		addToHashDictionary("/Users/joep/Documents/Twente/SoftwareSystems/eclipse/workspace/SS/src/ss/week6/dictionaryattack/password_dictionary.txt");
+		
+		for (String usrname : passwordMap.values()) {
+			
+			String password = hashDictionary.get(passwordMap.get(usrname));
+			
+			if (checkPassword(usrname, password)) {
+				System.out.println(usrname + ": " + hashDictionary.get(passwordMap.get(usrname)));
+			}
+		}
 	}
+	
+	
 	public static void main(String[] args) {
 		DictionaryAttack da = new DictionaryAttack();
 		// To implement
