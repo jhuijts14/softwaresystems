@@ -55,7 +55,7 @@ public class DictionaryAttack {
 	 * @return
 	 */
 	public String getPasswordHash(String password) {
-    	byte[] passwordBytes = password.getBytes();
+		byte[] passwordBytes = password.getBytes();
     	byte[] passwordMD5;
     	String passwordHex;
 		MessageDigest md;
@@ -67,11 +67,11 @@ public class DictionaryAttack {
 			return passwordHex;
 		
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
+			System.out.println("I'm sorry the MD5 algorythm can't be used!");
 			e.printStackTrace();
 		}
-		
 		return null;
+		
     		
 	}
 	/**
@@ -82,6 +82,7 @@ public class DictionaryAttack {
 	 * @return whether the password for that user was correct.
 	 */
 	public boolean checkPassword(String user, String password) {
+        
         if (passwordMap.get(user).equals(getPasswordHash(password))) {
         	return true;
         } 
@@ -107,6 +108,7 @@ public class DictionaryAttack {
 	        	
 	        	hashDictionary.put(getPasswordHash(origPassword), origPassword);
 	        }
+	        System.out.println(hashDictionary);
 	        
 	        in.close();
 		} catch (FileNotFoundException e) {
@@ -120,15 +122,18 @@ public class DictionaryAttack {
 	 * @throws FileNotFoundException 
 	 */
 	public void doDictionaryAttack() {
-		readPasswords("/Users/joep/Documents/Twente/SoftwareSystems/eclipse/workspace/SS/src/ss/week6/test/LeakedPasswords.txt");
-		addToHashDictionary("/Users/joep/Documents/Twente/SoftwareSystems/eclipse/workspace/SS/src/ss/week6/dictionaryattack/password_dictionary.txt");
+		readPasswords("/Users/joep/Documents/Twente/SoftwareSystems/eclipse/workspace/"
+						+ "SS/src/ss/week6/test/LeakedPasswords.txt");
+		addToHashDictionary("/Users/joep/Documents/Twente/SoftwareSystems/eclipse/workspace/"
+						+ "SS/src/ss/week6/dictionaryattack/password_dictionary.txt");
 		
-		for (String usrname : passwordMap.values()) {
-			
-			String password = hashDictionary.get(passwordMap.get(usrname));
-			
-			if (checkPassword(usrname, password)) {
-				System.out.println(usrname + ": " + hashDictionary.get(passwordMap.get(usrname)));
+		for (String usrname : passwordMap.keySet()) {
+			if (hashDictionary.get(passwordMap.get(usrname)) != null) {
+
+				if (checkPassword(usrname, hashDictionary.get(passwordMap.get(usrname)))) {
+					System.out.println(usrname + ": " 
+									+ hashDictionary.get(passwordMap.get(usrname)));
+				}
 			}
 		}
 	}
