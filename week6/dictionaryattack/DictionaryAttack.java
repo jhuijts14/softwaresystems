@@ -58,20 +58,21 @@ public class DictionaryAttack {
 		byte[] passwordBytes = password.getBytes();
     	byte[] passwordMD5;
     	String passwordHex;
-		MessageDigest md;
+		MessageDigest md = null;
 		
 		try {
 			md = MessageDigest.getInstance("MD5", new sun.security.provider.Sun());
-			passwordMD5 = md.digest(passwordBytes);
-			passwordHex = Hex.encodeHexString(passwordMD5);
-			return passwordHex;
+			
 		
 		} catch (NoSuchAlgorithmException e) {
 			System.out.println("I'm sorry the MD5 algorythm can't be used!");
 			e.printStackTrace();
+			System.exit(-1);
 		}
-		return null;
 		
+		passwordMD5 = md.digest(passwordBytes);
+		passwordHex = Hex.encodeHexString(passwordMD5);
+		return passwordHex;
     		
 	}
 	/**
@@ -83,11 +84,7 @@ public class DictionaryAttack {
 	 */
 	public boolean checkPassword(String user, String password) {
         
-        if (passwordMap.get(user).equals(getPasswordHash(password))) {
-        	return true;
-        } 
-        
-		return false;
+        return passwordMap.containsKey(user) && passwordMap.get(user).equals(getPasswordHash(password));
 	}
 
 	/**
@@ -97,18 +94,21 @@ public class DictionaryAttack {
 	 * @param filename filename of the dictionary.
 	 */
     public void addToHashDictionary(String filename) {
-        Scanner in;
+        if (hashDictionary == null) {
+        	hashDictionary = new HashMap<String, String>();
+        }
+        
+    	Scanner in;
 		try {
 			in = new Scanner(new FileReader(filename));
 			
-			hashDictionary = new HashMap<String, String>();
+			
 	        
 	        while (in.hasNextLine()) {
 	        	String origPassword = in.nextLine();
 	        	
 	        	hashDictionary.put(getPasswordHash(origPassword), origPassword);
 	        }
-	        System.out.println(hashDictionary);
 	        
 	        in.close();
 		} catch (FileNotFoundException e) {

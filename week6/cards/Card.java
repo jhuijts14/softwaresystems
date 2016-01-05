@@ -391,13 +391,26 @@ public class Card implements java.io.Serializable {
 	 * @return \result - a Card object or null if a card object cannot be made. 
 	 * @throws IOException 
 	 */
-	public static Card read(DataInput in) throws IOException {
+	public static Card read(DataInput in) throws EOFException {
 
 		
 		Card createdCard = null;
 
-		char cardSuit = in.readChar();
-		char cardRank = in.readChar();
+		char cardSuit;
+		char cardRank;
+		
+		try {
+			cardSuit = in.readChar();
+			cardRank = in.readChar();
+		} catch (EOFException e) {
+			throw e;
+		
+		} catch (IOException e) {
+			return null;
+			
+		
+		}
+		
 
 		if (isValidRank(cardRank) && isValidSuit(cardSuit)) {
 			createdCard = new Card(cardSuit, cardRank);
@@ -423,17 +436,20 @@ public class Card implements java.io.Serializable {
 	 * Read a DataInput object and return a Card instance on the basis of input.
 	 * @param in - a ObjectInput object that is used to create a Card instance
 	 * @return \result - a Card object or null if a card object cannot be made. 
-	 * @throws IOException 
-	 * @throws ClassNotFoundException 
+	 * @throws EOFException
 	 */
-	public static Card read(ObjectInput in) throws IOException {
+	public static Card read(ObjectInput in) throws EOFException {
 
 		Card card;
 		try {
 			card = (Card) in.readObject();
 			return card;
-		} catch (ClassNotFoundException e) {
-			return null;		}
+		} catch (EOFException e) {
+			throw e;
+		
+		} catch (IOException | ClassNotFoundException e) {
+			return null;	
+		}
 		
 	}
 	

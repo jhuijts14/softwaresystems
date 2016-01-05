@@ -23,7 +23,7 @@ public class VoteList extends Observable {
 	 * Create a new vote list. Creates an empty Map of strings and integers.
 	 */
 	public VoteList() {
-		votes = new HashMap<String, Integer>();
+		votes = new HashMap<>();
 	}
 	
 	//-----------------------------Queries-------------------------------------------
@@ -47,15 +47,11 @@ public class VoteList extends Observable {
 	 */
 	//@ ensures \result == (if int vote > 1 : 
 	public void addVote(String name) {
-		// If parties already has a vote, its vote count is incremented;
-		if (votes.containsKey(name)) {
-			int temp = votes.get(name); // A local int variable with the old vote count;
+		
+		int temp = votes.getOrDefault(name, 0); // A local int variable with the old vote count;
 			
-			votes.put(name, temp + 1);
+		votes.put(name, temp + 1);
 			
-		} else { // If not the party is added with a vote count of one;
-			votes.put(name, 1);
-		}
 		
 		this.setChanged();
 		this.notifyObservers("vote");

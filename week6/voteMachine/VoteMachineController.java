@@ -15,6 +15,7 @@ public class VoteMachineController {
 	//------------------------------Instance Variables-----------------
 	private PartyList parties; // This list of all parties to be voted upon;
 	private VoteList votes; // The list of the amount of votes for each party;
+	private VoteView voteView;
 	
 	
 	//-----------------------------Constructor---------------------------
@@ -26,6 +27,12 @@ public class VoteMachineController {
 		votes = new VoteList();
 		
 		parties = new PartyList();
+		
+		voteView = new VoteGUIView(this);
+		
+		// Observers for the party list and vote list;
+		parties.addObserver(voteView);
+		votes.addObserver(voteView);
 	}
 
 	//------------------------------Queries----------------------------
@@ -34,16 +41,17 @@ public class VoteMachineController {
 	 * Returns the list of all the parties in the vote machine.
 	 * @return \result - the PartyList of all the parties.
 	 */
-	/*@ pure */ public List<String> getParties() {
-		return parties.getParties();
+	/*@ pure */ public void getParties() {
+		voteView.showParties(parties.getParties());
 	}
 
 	/**
 	 * Returns the list of all the votes of the parties in the vote machine.
 	 * @return \result - the VoteList of all the vote machine.
 	 */
-	/*@ pure */ public Map<String, Integer> getVotes() {
-		return votes.getVotes();
+	/*@ pure */ public void getVotes() {
+		voteView.showVotes(votes.getVotes());
+		
 	}
 
 	//-----------------------------Commands----------------------------------
@@ -65,7 +73,13 @@ public class VoteMachineController {
 	public void vote(String party) {
 		if (parties.hasParty(party)) {
 			votes.addVote(party);
+		} else {
+			voteView.showError("Party is not on party list!");
 		}
+	}
+	
+	public void start() {
+		voteView.start();
 	}
 	
 
@@ -74,14 +88,10 @@ public class VoteMachineController {
 	 */
 	public static void main(String[] args) {
 		VoteMachineController voteMachine = new VoteMachineController();
-		VoteView voteView = new VoteGUIView(voteMachine);
 		
-		// Observers for the party list and vote list;
-		voteMachine.parties.addObserver(voteView);
-		voteMachine.votes.addObserver(voteView);
 		
 		// Start the TUI;
-		voteView.start();
+		voteMachine.start();
 	}
 
 	

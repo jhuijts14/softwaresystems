@@ -1,0 +1,422 @@
+7.2) A seperate thread is made to draw.
+
+7.3) Can't use the menu when it is drawing. The method draw() makes a new thread to handle the drawing, while drawMandel() does not.
+
+7.4) Check MandelPanel
+
+7.5) There is no thread to actually draw the balls, the main thread just maintains the frame.
+
+7.6) package ss.week7.bounce;
+
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.ListIterator;
+
+import javax.swing.JPanel;
+
+
+/**
+ * BallPanel a special JPanel for drawing balls on.
+ * Used with TimedBouncer.
+ * @version 2005.02.22
+ */
+public class BallPanel extends JPanel implements ActionListener {
+	private List<Ball> balls; // @invariant balls != null
+
+	public BallPanel() {
+		balls = new java.util.ArrayList<Ball>();
+		(new AnimateThread(this)).start();
+	}
+	
+	/**
+	 * Create a new thread to animate the balls.
+	 */
+	public void animateBalls() {
+		(new AnimateThread(this)).start();
+	}
+
+	/**
+	 * Implements the method from the interface ActionListener
+	 * Move and repaint the balls
+	 */
+	public void actionPerformed(ActionEvent evt) {
+		moveBalls();
+		repaint();
+	}
+
+	public void animate() {
+		try {
+			while (true) {
+				Thread.sleep(5);
+				moveBalls();
+				repaint();
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/** Add a new ball to the ball list and start the timer if not yet running. */
+	public synchronized void addNewBall() {
+		balls.add(new Ball(this));
+	}
+
+	/**
+	 * Move all balls 
+	 * BEWARE: collision effects are not respecting Snellius' law. 
+	 */
+	public synchronized void moveBalls() {
+		for (Ball b : balls) {
+			b.move();
+		}
+
+		// collision detection
+		ListIterator<Ball> ix = balls.listIterator();
+		while (ix.hasNext()) {
+			Ball b = ix.next();
+			ListIterator<Ball> jx = balls.listIterator(ix.nextIndex());
+			while (jx.hasNext()) {
+				Ball other = jx.next();
+				b.collide(other);
+			}
+		}
+	}
+
+	/**
+	 * Overrides paintComponent in JPanel.
+	 * Is called if repaint is called.
+	 * Paints all elements of balls.
+	 */
+	public synchronized void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		for (Ball b : balls) {
+			b.draw(g);
+		}
+	}
+	
+	class AnimateThread extends Thread {
+		
+		
+		AnimateThread(BallPanel bpArg) {
+			this.bp = bpArg;
+		}
+
+		// overrides Thread.run
+		// animates the balls on the BallPanel
+		public void run() {
+			bp.animate();
+		}
+
+		private BallPanel bp;
+	
+	}
+}
+
+7.7) Check BallPanel
+
+7.8) TestConsole.java
+
+package ss.week7.threads;
+
+
+public class TestConsole extends Thread {
+	
+	private String name;
+	
+	public TestConsole(String name) {
+		this.name = name;
+
+	}
+	
+	public void run() {
+		sum();
+	}
+	
+	
+	
+	/**
+	 * Calculate the sum of two numbers from input and write said sum to output.
+	 * 
+	 */
+	private void sum() {
+		int a = Console.readInt(this.getName() + ": get number 1? ");
+		int b = Console.readInt(this.getName() + ": get number 2? ");
+		
+		int sum = a + b;
+		
+		Console.println(this.getName() + ": " + a + " + " + b + " = " + sum);
+	}
+
+}
+
+
+Console.java
+
+package ss.week7.threads;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+
+/**
+ * Class for default input/output
+ * @author  Arend Rensink en Theo Ruys.
+ */
+public class Console {
+    /** sign for wrong input */
+    static public final char FOUT = '\u0004';
+
+    static private BufferedReader in = new BufferedReader(
+            new InputStreamReader(System.in));
+    static private PrintStream out = System.out;
+
+    private Console(String name) {
+
+    	(new TestConsole(name)).start();
+    }
+
+    /**
+     * write a text on the default output
+     * @param text text to be written
+     */
+    static public void print(String text) {
+        out.print(text);
+    }
+
+    /**
+     * write a text on the default output, ending with a new line
+     * @param text text to be written
+     */
+    static public void println(String text) {
+        out.println(text);
+    }
+
+    /**
+     * Reads a line from the default input. 
+     * @param  text question
+     * @return read text (never null)
+     */
+    static public String readString(String text) {
+        print(text);
+        String antw = null;
+        try {
+            antw = in.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (antw == null) {
+            return "" + FOUT;
+        } else {
+            return antw;
+        }
+    }
+
+    /**
+     * Reads an integer from the default input
+     * @param  text question text
+     * @return entered number
+     */
+    static public int readInt(String text) {
+        return readInt(text, "Enter a integer");
+    }
+
+    /**
+     * Reads an integer from the default input
+     * With an invalid input the question will be asked again
+     * @param text question
+     * @param errorMessage error message for wrong input
+     * @return number
+     */
+    static public int readInt(String text, String errorMessage) {
+        do {
+            String ans = readString(text);
+            try {
+                return Integer.parseInt(ans);
+            } catch (NumberFormatException e) {
+                println(errorMessage);
+            }
+        } while (true);
+    }
+    
+    public static void main(String[] args) {
+    	Console console1 = new Console("A");
+    	Console console2 = new Console("B");
+    }
+}
+
+7.9) It perform the readInt methods for each instance one after the other when calculating the sum. So the system reads
+for the first variable in instance one and then the first variable in instance 2 and so on. This makes the program confusing to use. 
+The sum method should be locked so only one instance can perform it at a time.
+
+7.10)  Check SyncConsole.java
+
+7.11) The readInt() methods are executed in order but the println() methods were still out of order.
+
+7.12)  No they println() method still prints the second instance sum before the first. 
+The first instance is interrupted/waits after the second input is recorded and then waits 
+for the second instance to finish using sum.
+
+package ss.week7.threads;
+
+public class TestSyncConsole extends Thread {
+		
+	private String name;
+
+	public TestSyncConsole(String name) {
+		this.name = name;
+
+	}
+
+	public void run() {
+		sum();
+	}
+
+
+
+	/**
+	 * Calculate the sum of two numbers from input and write said sum to output.
+	 * 
+	 */
+	private synchronized void sum() {
+		int a = SyncConsole.readInt(this.getName() + ": get number 1? ");
+		int b = SyncConsole.readInt(this.getName() + ": get number 2? ");
+
+		int sum = a + b;
+
+		SyncConsole.println(this.getName() + ": " + a + " + " + b + " = " + sum);
+	}
+}
+
+7.13)
+package ss.week7.threads;
+
+public class TestSyncConsole extends Thread {
+	
+
+	public TestSyncConsole(String name) {
+		super(name);
+
+	}
+
+	public  void run() {
+		
+			sum(this.getName());
+	}
+
+
+
+	/**
+	 * Calculate the sum of two numbers from input and write said sum to output.
+	 * 
+	 */
+	private static synchronized void sum(String name) {
+		
+		int a = SyncConsole.readInt("Thread " + name + ": get number 1? ");
+		int b = SyncConsole.readInt("Thread " + name + ": get number 2? ");
+
+		int sum = a + b;
+
+		SyncConsole.println("Thread " + name + ": " + a + " + " + b + " = " + sum);
+	
+	}
+
+
+}
+
+
+
+7.14) 1. A reentrant mutual exclusion Lock with the same basic behavior and semantics as the 
+implicit monitor lock accessed using synchronized methods and statements, but with extended 
+capabilities.
+2. A ReentrantLock is owned by the thread last successfully locking, but not yet unlocking it. 
+3. A reentrantLock has more functions than using synchronized, more methods, etc. Allowing you
+more options when synchronizing. You can use timed waits, locks over multiple methods, and it has
+an additional constructor so you can set the fairness level of the lock.
+4. Need to add import statement. Need to use in a try/finally block to acquire which makes your 
+code more cluttered with additional nesting. 
+
+7.15) Check the TestSyncConsole
+
+7.16) Some of the values the producers print were either printed multiple or not at all and even when the 
+the producer stop inputing new values, the consumers kept on printing the values indefinitely. Or the consumers
+started printing the value before any producers changed that value. Only the last change to the value is printed
+so if a producers changes the value twice before a consumer runs, that first value change is lost forever.
+A producer and a consumer have to be synchronized so that the consumer always prints the value of the one producer.
+Also so the two groups don't interrupt each other and change the value before it print / print the wrong value.
+It might be solvable with read and write reentrant locks and using wait and notify
+
+7.17) Check SynchronizedIntCell
+
+7.18) Check FinegrainedIntCell
+
+7.19) 1. package ss.week7.account;
+
+public class MyThread extends Thread {
+
+	private double theAmount;
+	private int theFrequency;
+	private Account theAccount;
+	
+	public MyThread(double amount, int frequency, Account account) {
+		this.theAccount = account;
+		this.theFrequency = frequency;
+		this.theAmount = amount;
+	}
+	
+	public void run() {
+		
+		for (int i = 0; i < this.theFrequency; i++) {
+			theAccount.transaction(theAmount);
+		}
+	}
+}
+
+2. package ss.week7.account;
+
+public class AccountSync {
+
+	
+	public static void main(String[] args) {
+		int times = 10;
+		double amount = 100.0;
+		Account account = new Account();
+		
+		MyThread thread1 = new MyThread(amount, times, account);
+		MyThread thread2 = new MyThread(-amount, times, account);
+		
+		thread1.start();
+		thread2.start();
+		
+		System.out.println("The account balance is: " + account.getBalance());
+	}
+
+}
+
+3. Sometimes the thread transferring the negative value does execute but its balance value is overwritten by the the other thread.
+4. Account is now thread safe.
+5 Check Account
+6. Not much would change except main in AccountSync would construct two runnable objects and use those runnables to construct two
+new generic threads.
+
+7.20) 1. The value of contents is 3 as the two threads a1 and a2 only add the values 1 and 2 to contents (originally 0)
+2. The result is 3 again as the change just tells them directly to execute their run() method which adds 1 and 2 to currents.
+3.  The result is 1 as the second thread doesn't not add its value to contents
+4. The result is 3, the two threads add their values.
+5. just added synchronized keyword to run()
+
+7.21)
+1.
+
+7.22)
+
+
+
+
+
+
+
+

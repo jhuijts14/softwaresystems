@@ -63,32 +63,21 @@ public class VoteTUIView implements Observer, VoteView {
 									+ " (Enter party name) ");
 					String party = in.next();
 					
-					if (voteMachine.getParties().contains(party)) {
-						voteMachine.vote(party);
-					} else {
-						System.out.println("Can not vote for a party not on the partylist!");
-					}
-					
+					voteMachine.vote(party);
 				// Add a new Party;
 				} else if (answer == 2) {
 					System.out.println("What party would you like to add to the "
 									+ "party list? (Enter party name) ");
 					String party = in.next();
 					
-					if (!voteMachine.getParties().contains(party)) {
-						voteMachine.addParty(party);
-					} else {
-						System.out.println("Input party name alread on the list! "
-										+ "Can not add a party already on the list");
-					}
-					
+					voteMachine.addParty(party);
 				// View all parties being voted on;
 				} else if (answer == 3) {
-					this.showParties(voteMachine.getParties());
+					voteMachine.getParties();
 				
 				// View all the parties votes;
 				} else if (answer == 4) {
-					this.showVotes(voteMachine.getVotes());
+					voteMachine.getVotes();
 				
 				// Exit the voting machine;
 				} else if (answer == 5) {
