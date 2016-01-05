@@ -8,7 +8,7 @@ public class Account {
 	public void transaction(double amount) {
 		synchronized (this) {
 			try {
-				while (balance + amount < -1000 && amount < 0) {
+				while (balance + amount < -1000) {
 
 					this.wait();
 

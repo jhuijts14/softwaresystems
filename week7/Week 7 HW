@@ -402,14 +402,16 @@ public class AccountSync {
 6. Not much would change except main in AccountSync would construct two runnable objects and use those runnables to construct two
 new generic threads.
 
-7.20) 1. The value of contents is 3 as the two threads a1 and a2 only add the values 1 and 2 to contents (originally 0)
+7.20) 1. The value of contents is 3, 2, 1 as the two threads a1 and a2 only add the values 1 and 2 to contents (originally 0)
 2. The result is 3 again as the change just tells them directly to execute their run() method which adds 1 and 2 to currents.
 3.  The result is 1 as the second thread doesn't not add its value to contents
-4. The result is 3, the two threads add their values.
+4. The result is 0, 1, 2 or 3, the two threads add their values.
 5. just added synchronized keyword to run()
 
 7.21)
-1.
+1. The text = text.concat(toe); since if the two threads run at the same time the initial text value can be taken
+which is the empty string.
+2. "one;", "two;"
 
 7.22)
 

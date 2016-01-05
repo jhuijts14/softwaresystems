@@ -2,7 +2,17 @@ package ss.week7;
 
 
 public class QuickSort {
-    public static void qsort(int[] a) {
+    int[] a; 
+	
+	public QuickSort(int[] x) {
+    	int length = x.length;
+    	
+    	a = new int[length];
+    	
+		
+    }
+	
+	public static void qsort(int[] a) {
         qsort(a, 0, a.length - 1);
     }
     public static void qsort(int[] a, int first, int last) {
@@ -34,5 +44,40 @@ public class QuickSort {
         a[i] = a[j];
         a[j] = tmp;
     }
+    
+    public static void main(String[] args) {
+    	
+    	int[] a = new int[]{3, 5, 1, 7, 2, 4, 8, 1, 9};
+    	
+    	QSortRunnable r = new QSortRunnable(a);
+    	
+    	Thread thread = new Thread(r);
+    	
+    	thread.start();
+    	
+    	
+    	
+    }
+
+}
+
+
+class QSortRunnable implements Runnable {
+
+	private int[] a;
+
+	public QSortRunnable(int[] aArg) {
+		this.a = aArg;
+	}
+
+	@Override
+	public void run() {
+		sort(a);
+
+	}
+
+	public static synchronized void sort(int[] aArg) {
+		QuickSort.qsort(aArg);
+	}
 
 }

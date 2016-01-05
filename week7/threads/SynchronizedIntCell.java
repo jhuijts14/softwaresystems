@@ -16,7 +16,7 @@ public class SynchronizedIntCell implements IntCell {
 		}
 		value = valueArg;
 		consumed = false;
-		this.notify();
+		this.notifyAll();
 	}
 
 	public synchronized int getValue() {
@@ -25,9 +25,7 @@ public class SynchronizedIntCell implements IntCell {
 			try {
 				this.wait(5000);
 				
-				if (consumed) {
-					setValue(-1);
-				}
+				
 				
 				
 			} catch (InterruptedException e) {
@@ -38,7 +36,7 @@ public class SynchronizedIntCell implements IntCell {
 		
 		
 		consumed = true;
-		this.notify();
+		this.notifyAll();
 		return value;
 		
 	}

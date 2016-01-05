@@ -28,6 +28,7 @@ public class IntProducer extends Thread {
 			cell.setValue(val);
 		}
 
+		cell.setValue(-1);
 		System.out.println(getName() + ": end");
 	}
 }
