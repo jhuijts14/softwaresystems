@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+import ss.week7.cmdline.Peer;
+
 /**
  * ClientHandler.
  * @author  Theo Ruys
@@ -17,6 +19,7 @@ public class ClientHandler extends Thread {
     private BufferedReader in;
     private BufferedWriter out;
     private String clientName;
+   
 
     /**
      * Constructs a ClientHandler object
@@ -24,7 +27,11 @@ public class ClientHandler extends Thread {
      */
     //@ requires serverArg != null && sockArg != null;
     public ClientHandler(Server serverArg, Socket sockArg) throws IOException {
-        // TODO insert body
+        this.server = serverArg;
+        
+        this.in = new BufferedReader(new InputStreamReader(sockArg.getInputStream()));
+        this.out = new BufferedWriter(new OutputStreamWriter(sockArg.getOutputStream()));
+        
     }
 
     /**
@@ -35,7 +42,9 @@ public class ClientHandler extends Thread {
      */
     public void announce() throws IOException {
         clientName = in.readLine();
+        
         server.broadcast("[" + clientName + " has entered]");
+        System.out.println("Client Name has been printed");
     }
 
     /**
@@ -47,7 +56,26 @@ public class ClientHandler extends Thread {
      * broken and shutdown() will be called. 
      */
     public void run() {
-        // TODO insert body
+    	String msg;
+    	
+    	try {
+			msg = in.readLine();
+			while (msg != null) {
+				server.broadcast(this.clientName + ": " + msg);
+				
+				msg = in.readLine();
+			}
+			
+			shutdown();
+
+		} catch (IOException e) {
+			shutdown();
+			
+		}
+    	
+    	
+        
+        
     }
 
     /**
@@ -57,7 +85,13 @@ public class ClientHandler extends Thread {
      * and shutdown() is called.
      */
     public void sendMessage(String msg) {
-        // TODO insert body
+    	try {
+    		out.write(msg);
+    		out.newLine();
+    		out.flush();
+    	} catch (IOException e) {
+    		shutdown();
+    	}
     }
 
     /**

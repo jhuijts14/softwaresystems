@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -38,7 +39,8 @@ public class Peer implements Runnable {
     public Peer(String nameArg, Socket sockArg) throws IOException {
     	this.name = nameArg;
     	this.sock = sockArg;
-    	
+    	this.in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+    	this.out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
     }
 
     /**
@@ -46,22 +48,7 @@ public class Peer implements Runnable {
      * writes the characters to the default output.
      */
     public void run() {
-
-    	Scanner input = new Scanner(in);
-
-    	while (input.hasNextLine()) {
-    		String text = input.nextLine();
-    		byte[] textBytes = text.getBytes();
-    		
-    		try {
-				sock.getOutputStream().write(textBytes);
-				
-			} catch (IOException e) {
-				System.out.println("Can't write to the Terminal!");
-				e.printStackTrace();
-			}
-    	}
-
+    	handleStreamInput();
     }
 
 
@@ -70,28 +57,38 @@ public class Peer implements Runnable {
      * the socket-connection to the Peer process.
      * On Peer.EXIT the method ends
      */
-    public void handleTerminalInput() {
-    	
+    public void handleStreamInput() {
+        	
     	try {
-			in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-			Scanner input = new Scanner(in);
 			
-			while (input.hasNextLine()) {
-				String textInBytes = input.nextLine();
-				String text = new String(textInBytes);
-				out.write(text);
+			String text = in.readLine();
 				
-				if (text.equals(Peer.EXIT)) {
-					sock.getOutputStream().flush();
-					out.flush();
-					return;
-					
-				}
+			while (text != null) {
+				System.out.println(text);
+				text = in.readLine();
 			}
+			
+			shutDown();
+				
 		} catch (IOException e) {
 			System.out.println("Can't read data from Terminal!");
 			e.printStackTrace();
 		}
+    }
+    
+    public void handleTerminalInput() {
+    	try {
+    		String msg = readString("> ");
+    		while (msg != null && !msg.equals(Peer.EXIT)) {
+    			out.write(getName() + ": " + msg);
+    			out.newLine();
+    			out.flush();
+    			msg = readString("> ");
+    		}
+    		shutDown();
+    	} catch (IOException e) {
+    		shutDown();
+    	}
     }
 
     /**
@@ -99,13 +96,16 @@ public class Peer implements Runnable {
      */
     public void shutDown() {
     	try {
-			in.close();
-			out.close();
-			sock.close();
-		} catch (IOException e) {
-			System.out.println("The streams and socket couldn't be closed!");
-			e.printStackTrace();
-		}
+    		sock.close();
+    	} catch (NullPointerException e) {
+    		System.out.print("Closed");
+    		System.exit(0);
+    		
+
+    	} catch (IOException e) {
+    		System.out.println("The streams and socket couldn't be closed!");
+    		e.printStackTrace();
+    	}
     	
     	
     }

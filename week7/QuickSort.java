@@ -1,5 +1,6 @@
 package ss.week7;
 
+import java.util.Arrays;
 
 public class QuickSort {
     int[] a; 
@@ -13,13 +14,29 @@ public class QuickSort {
     }
 	
 	public static void qsort(int[] a) {
-        qsort(a, 0, a.length - 1);
+        
+
+        QSortRunnable r = new QSortRunnable(a, 0, a.length - 1);
+    	
+    	r.run();
+    	
     }
+	
+	
     public static void qsort(int[] a, int first, int last) {
-        if (first < last) {
+        
+    	
+    	if (first < last) {
             int position = partition(a, first, last);
-            qsort(a, first, position - 1);
-            qsort(a, position + 1, last);
+            
+            QSortRunnable r = new QSortRunnable(a, first, position - 1);
+        	r.start();
+        	qsort(a, position + 1, last);
+        	try { 
+        		r.join();
+        	} catch (InterruptedException e) {
+        		e.printStackTrace();
+        	}
         }
     }
     public static int partition(int[] a, int first, int last) {
@@ -49,12 +66,9 @@ public class QuickSort {
     	
     	int[] a = new int[]{3, 5, 1, 7, 2, 4, 8, 1, 9};
     	
-    	QSortRunnable r = new QSortRunnable(a);
+    	qsort(a);
     	
-    	Thread thread = new Thread(r);
-    	
-    	thread.start();
-    	
+    	System.out.println(Arrays.toString(a));
     	
     	
     }
@@ -62,22 +76,24 @@ public class QuickSort {
 }
 
 
-class QSortRunnable implements Runnable {
+class QSortRunnable extends Thread implements Runnable {
 
 	private int[] a;
+	private int first, last;
 
-	public QSortRunnable(int[] aArg) {
+	public QSortRunnable(int[] aArg, int firstArg, int lastArg) {
 		this.a = aArg;
+		this.first = firstArg;
+		this.last = lastArg;
+		
 	}
 
 	@Override
 	public void run() {
-		sort(a);
+		QuickSort.qsort(a, first, last);
 
 	}
 
-	public static synchronized void sort(int[] aArg) {
-		QuickSort.qsort(aArg);
-	}
+	
 
 }

@@ -5,21 +5,32 @@ public class ConcatThread extends Thread {
     private static String text = ""; // global variable
     private String toe;
     
+    public static Object lock = new Object();
+    
 
     public ConcatThread(String toeArg) {
         this.toe = toeArg;
     }
 
-    public static String getText() {
+    public String getText() {
     	return text;
     }
     public void run() {
-        concatText(getText(), toe);
-    }
-    
-    public static synchronized String concatText(String textArg, String toeArg) {
-    	textArg = textArg.concat(toeArg);
-    	return textArg;
+    	synchronized (lock) {
+    		if (text.equals("two;")) {
+    			try {
+    				lock.wait();
+    			} catch (InterruptedException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    		}
+    		
+    		text = text.concat(toe);
+    		
+    		lock.notifyAll();
+    		
+    	}
     }
     
 
@@ -30,6 +41,8 @@ public class ConcatThread extends Thread {
     	
     	concat1.start();
         concat2.start();
+        
+        
         try {
         	concat1.join();
         	concat2.join();
@@ -37,7 +50,9 @@ public class ConcatThread extends Thread {
         	System.out.println("Couldn't join the threads!");
         	e.printStackTrace();
         }
-
+        
+        
         System.out.println(text);
+        
     }
 }

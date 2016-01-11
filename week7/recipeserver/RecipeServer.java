@@ -24,10 +24,10 @@ public class RecipeServer extends Thread {
         	// with that as this recipe server has some security issues!
         	// ServerSocket ssock = new ServerSocket(port);
             while (true) {
-                 Socket sock = ssock.accept();
-                 System.out.println("Client connected!");
-                 ClientHandler handler = new ClientHandler(sock);
-                 handler.start();
+            	Socket sock = ssock.accept();
+            	System.out.println("Client connected!");
+            	ClientHandler handler = new ClientHandler(sock);
+            	handler.start();
             }
         } catch (IOException e) {
             e.printStackTrace();

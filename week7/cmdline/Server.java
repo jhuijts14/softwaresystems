@@ -20,29 +20,19 @@ public class Server {
     /** Starts a Server-application. */
     public static void main(String[] args) {
     	
-    	if (args.length != 3) {
+    	if (args.length != 2) {
             System.out.println(USAGE);
             System.exit(0);
         }
 
         String name = args[0];
-        InetAddress addr = null;
         int port = 0;
-        Socket sock = null;
         ServerSocket serverSock = null;
+        Socket sock = null;
 
-        // check args[1] - the IP-adress
+        // parse args[1] - the port
         try {
-            addr = InetAddress.getByName(args[1]);
-        } catch (UnknownHostException e) {
-            System.out.println(USAGE);
-            System.out.println("ERROR: host " + args[1] + " unknown");
-            System.exit(0);
-        }
-
-        // parse args[2] - the port
-        try {
-            port = Integer.parseInt(args[2]);
+            port = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {
             System.out.println(USAGE);
             System.out.println("ERROR: port " + args[2]
@@ -62,21 +52,28 @@ public class Server {
         
         // try to open a Socket to the client;
         try {
-            sock = serverSock.accept();
+        	
+        	sock = serverSock.accept();
+      
+        	System.out.println("Client " + name + " added!");
+        	
         } catch (IOException e) {
             System.out.println("ERROR: did not get a client!");
+            System.exit(0);
         }
 
         // create Peer object and start the two-way communication
+        
         try {
-            Peer client = new Peer(name, sock);
-            Thread streamInputHandler = new Thread(client);
-            streamInputHandler.start();
-            client.handleTerminalInput();
-            client.shutDown();
+        	Peer server = new Peer(name, sock);
+        	Thread streamInputHandler = new Thread(server);
+        	streamInputHandler.start();
+        	server.handleTerminalInput();
+        	server.shutDown();
         } catch (IOException e) {
-            e.printStackTrace();
+        	e.printStackTrace();
         }
+     
     }
 
 } // end of class Server

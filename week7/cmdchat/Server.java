@@ -23,16 +23,30 @@ public class Server {
         }
         
         Server server = new Server(Integer.parseInt(args[0]));
+        System.out.println("Server started.");
         server.run();
+        
         
     }
 
 
     private int port;
     private List<ClientHandler> threads;
-    /** Constructs a new Server object */
+    private ServerSocket serverSocket;
+    
+    /** Constructs a new Server object. */
     public Server(int portArg) {
-        // TODO insert body
+        
+    	
+    	this.port = portArg;
+        
+    	try {
+    		serverSocket = new ServerSocket(this.port);
+    	} catch (IOException e) {
+    		System.out.println("Could not create a server socket from this port!");
+    	}
+        
+        threads = new Vector<ClientHandler>();
     }
     
     /**
@@ -42,10 +56,27 @@ public class Server {
      * communication with the Client.
      */
     public void run() {
-        // TODO insert body
+        while (true) {
+        	try {
+        		
+        		Socket newClient = serverSocket.accept();
+        		
+        		ClientHandler newClientHandler = new ClientHandler(this, newClient);
+        		System.out.println("Made a client handler");
+        		newClientHandler.announce();
+        		System.out.println("New client announced his/her name!");
+        		this.addHandler(newClientHandler);
+        		newClientHandler.start();
+        		System.out.println("New client handler has started!");
+        	
+        	} catch (IOException e) {
+        		System.out.println("Couldn't accept new socket!");
+        	}
+        	
+        }
     }
     
-    public void print(String message){
+    public void print(String message) {
         System.out.println(message);
     }
     
@@ -55,7 +86,12 @@ public class Server {
      * @param msg message that is send
      */
     public void broadcast(String msg) {
-        // TODO insert body
+        
+    	for (int i = 0; i < threads.size(); i++) {
+        	ClientHandler temp = threads.get(i);
+        	System.out.println("Client Handler " + i);
+        	temp.sendMessage(msg);
+        }
     }
     
     /**
@@ -63,7 +99,7 @@ public class Server {
      * @param handler ClientHandler that will be added
      */
     public void addHandler(ClientHandler handler) {
-        // TODO insert body
+    	threads.add(handler);
     }
     
     /**
@@ -71,6 +107,7 @@ public class Server {
      * @param handler ClientHandler that will be removed
      */
     public void removeHandler(ClientHandler handler) {
-        // TODO insert body
+        threads.remove(handler);
+        
     }
 }
